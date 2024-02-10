@@ -1,0 +1,4 @@
+minirt
+*.o
+dist
+*.ppm
