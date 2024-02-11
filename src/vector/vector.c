@@ -63,5 +63,5 @@ t_vector* _vector_new(float x, float y, float z) {
 }
 
 void    vector_free(void *vector) {
-    free((t_vector*)vector);
+    free(vector);
 }

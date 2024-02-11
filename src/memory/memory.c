@@ -15,18 +15,14 @@ static void initialize(void) {
 void memory_flush(e_memory_type where) {
     
     if (where == LONG) {
-        ft_printf("[+] - Long Memory: %d items cleaned [+]\n", memory->long_memory->size);
         ft_lstclear(memory->long_memory);
     } else if (where == SHORT) {
-        ft_printf("[+] - SHORT Memory: %d items cleaned [+]\n", memory->short_memory->size);
         ft_lstclear(memory->short_memory);
     } else if (ALL) {
         ft_printf("[+] - Long Memory: %d items cleaned [+]\n", memory->long_memory->size);
         ft_printf("[+] - SHORT Memory: %d items cleaned [+]\n", memory->short_memory->size);
-        if (memory->long_memory->head)
-            ft_lstclear(memory->long_memory);
-        if (memory->short_memory->head)
-            ft_lstclear(memory->short_memory);
+        ft_lstclear(memory->long_memory);
+        ft_lstclear(memory->short_memory);
         free(memory->long_memory);
         free(memory->short_memory);
         free(memory);

@@ -54,8 +54,10 @@ int main(int argc, char *argv[])
                 t_vector* result = ray_color(ray);
                 vector_write_color(result, context.file);
             }
+            memory->memory_flush(SHORT);
         }
         memory->write_in_long();
+
         memory->memory_flush(ALL);
         close(context.file);
     } else {
