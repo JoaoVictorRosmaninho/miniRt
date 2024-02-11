@@ -2,6 +2,10 @@
     "files.associations": {
         "*.slim": "html",
         "unistd.h": "c",
-        "minit_rt.h": "c"
+        "minit_rt.h": "c",
+        "libft.h": "c",
+        "memory.h": "c",
+        "chrono": "c",
+        "functional": "c"
     }
 }

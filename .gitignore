@@ -2,3 +2,4 @@ minirt
 *.o
 dist
 *.ppm
+core*

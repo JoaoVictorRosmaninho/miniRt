@@ -1,6 +1,7 @@
 CC = clang
-CFLAGS = -Wall -Wextra -Werror -ggdb -c 
-LFLAGS = -L./dist -lft
+CFLAGS = -Wall -Wextra -Werror -ggdb  -c 
+LFLAGS = -L./dist -lft 
+GFLAGS = -fsanitize=address
 NAME = minirt
 AR = ar -crs
 NAME_LIB = minitrt.a
@@ -42,7 +43,7 @@ valgrind: $(NAME)
 
 $(NAME): $(OBJ_DIR) $(LIBFT) $(SRC_OBJ)
 	cp libs/libft/libft.a $(LIBFT)
-	$(CC) $(SRC_OBJ) $(LFLAGS) -o $(NAME)
+	$(CC) $(SRC_OBJ) $(LFLAGS) $(GFLAGS) -o $(NAME)
 
 $(OBJ_DIR)/%.o: src/%.c
 	$(CC) $(CFLAGS) $< -o $@
