@@ -1,15 +1,15 @@
 #include "../../includes/minit_rt.h"
 
-t_vector *at(float t, t_ray *ray) {
-    return NULL;
-}
+//t_vector *at(float t, t_ray *ray) {
+//    return NULL;
+//}
 
 
 t_ray* ft_build_ray(t_vector* center, t_vector* direction) {
     t_ray *ray;
 
     ray = ft_calloc(1, sizeof(ray));
-    if (!ray) new_error("Memoria insuficiente - ray_utils.c:17", MEM_ERROR);
+    if (!ray) ft_printf("Memoria insuficiente, code: %d - ray_utils.c:17", MEM_ERROR);
     ray->direction = direction;
     ray->origin    = center;
     return (ray);

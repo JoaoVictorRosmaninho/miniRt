@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.slim": "html",
+        "unistd.h": "c",
+        "minit_rt.h": "c"
+    }
+}
