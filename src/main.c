@@ -4,7 +4,7 @@ extern t_memory* memory;
 
 e_errors cmd_line_parse(t_context *ctx, int argc, char *argv[])
 {
-    if (argc != 3)
+    if (argc < 2 || argc > 3 )
         return CMD_ERROR;
 
 
