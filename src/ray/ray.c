@@ -4,6 +4,8 @@
 //    return NULL;
 //}
 
+extern t_memory* memory;
+
 static void ray_free(void *ray) {
     free((t_ray *) ray);
 }
@@ -11,10 +13,8 @@ static void ray_free(void *ray) {
 t_ray* ray_new(t_vector* center, t_vector* direction) {
     t_ray *ray;
 
-    ray = (t_ray *) new(1, sizeof(t_ray),  ray_free, LONG);
+    ray = (t_ray *) new(1, sizeof(t_ray),  ray_free, memory->where_write);
 
-    if (!ray)
-        ft_printf("Memoria insuficiente, code: %d - ray_utils.c:17", MEM_ERROR);
     ray->direction = direction;
     ray->origin    = center;
     return (ray);

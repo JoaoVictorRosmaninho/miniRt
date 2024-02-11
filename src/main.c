@@ -57,7 +57,6 @@ int main(int argc, char *argv[])
             memory->memory_flush(SHORT);
         }
         memory->write_in_long();
-
         memory->memory_flush(ALL);
         close(context.file);
     } else {
