@@ -8,7 +8,7 @@ SRC_DIR   := ../src
 OBJ_DIR   := ../dist
 LIBFT_DIR := ../libs/libft
 MLX_DIR   := ../libs/mlx_linux
-INC_DIRS  := ../includes $(LIBFT_DIR) $(MLX_DIR)
+INC_DIRS  := ../includes
 SRC_DIRS  := $(shell find $(SRC) -type d)
 
 vpath %.h $(INC_DIRS)
@@ -16,9 +16,7 @@ vpath %.c $(SRC_DIRS)
 
 SOURCES := $(shell find $(SRC_DIR) -name '*.c' -exec basename {} \;)
 SOURCES := $(filter-out main.c, $(SOURCES))
-UTILS   := utils.c
 OBJS    := $(addprefix $(OBJ_DIR)/, $(SOURCES:.c=.o))
-OBJS    += $(UTILS:.c=.o)
 
 CFLAGS  := -Wall -Werror -Wextra -O3 $(addprefix -I,$(INC_DIRS))
 LDFLAGS := -L $(LIBFT_DIR) -L $(MLX_DIR)
@@ -37,7 +35,11 @@ endef
 all: $(TESTS) clean
 
 .PHONY: vector
-vector: $(OBJ_DIRS) test_vector_creator.c
+
+debug:
+	@echo $(OBJS)
+
+vector: $(OBJS) test_vector_creator.c
 	@$(call run, "$^")
 
 # Makefile rules to clean stdin/stdout/stderr test's files
