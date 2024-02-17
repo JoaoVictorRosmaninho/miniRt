@@ -33,6 +33,14 @@ t_vector* vdivf(t_vector *a, float factor) {
     return (vmultf(a, 1 / factor));
 }
 
+float dot(t_vector* a,  t_vector* b) {
+    return (
+          a->x * b->x
+        + a->y * b->y
+        + a->z * b->z 
+    );
+}
+
 t_vector* vector_new(float x, float y, float z) {
 
     e_memory_type write_in;
@@ -48,6 +56,14 @@ t_vector* vector_new(float x, float y, float z) {
     vector->z = z;
 
     return (vector);
+}
+
+t_vector vector_new_stack(float x, float y, float z) {
+    return ((t_vector) {
+        .x = x,
+        .y = y,
+        .z = z
+    });
 }
 
 void    vector_free(void *vector) {

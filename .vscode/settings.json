@@ -6,6 +6,7 @@
         "libft.h": "c",
         "memory.h": "c",
         "chrono": "c",
-        "functional": "c"
+        "functional": "c",
+        "sphere.h": "c"
     }
 }

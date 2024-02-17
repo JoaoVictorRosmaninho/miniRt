@@ -2,12 +2,10 @@
 
 extern t_memory* memory;
 
-e_errors cmd_line_parse(t_context *ctx, int argc, char *argv[])
+static e_errors cmd_line_parse(t_context *ctx, int argc, char *argv[])
 {
     if (argc < 2 || argc > 3 )
         return CMD_ERROR;
-
-
     ctx->height = ft_atoi(argv[1]);
     ctx->width  = ft_atoi(argv[2]);
     ctx->file   = open("image.ppm", O_WRONLY | O_CREAT);

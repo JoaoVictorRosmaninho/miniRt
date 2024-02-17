@@ -7,8 +7,7 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "../libs/libft/includes/libft.h"
-#include "./memory.h"
+
 
 # define WIDTH 400
 # define ASPECT 16/9.0
@@ -49,7 +48,9 @@ typedef enum {
 } e_errors;
 
 
-
+#include "../libs/libft/includes/libft.h"
+#include "./memory.h"
+#include "./sphere.h"
 
 void    vector_write_color(t_vector *v, int out);
 void    vector_to_str(t_vector *v);
@@ -67,7 +68,8 @@ t_vector* vmult(t_vector *a, t_vector *b);
 t_vector* vmultf(t_vector *a, float factor);
 t_vector* vdivf(t_vector *a, float factor);
 t_vector* vector_new(float x, float y, float z);
-t_vector* _vector_new(float x, float y, float z);
+t_vector  vector_new_stack(float x, float y, float z);
+float dot(t_vector* a,  t_vector* b);
 void      vector_free(void *vector);
 double    vsqrt(t_vector *a);
 float     vsquared(t_vector *a);

@@ -3,7 +3,7 @@
 t_memory* memory = NULL;
 
 static void initialize(void) {
-    memory = ft_calloc(1, sizeof(t_memory));
+    memory                 = ft_calloc(1, sizeof(t_memory));
     memory->long_memory    = ft_lstnew();
     memory->short_memory   = ft_lstnew();
     memory->where_write    = LONG;
