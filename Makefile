@@ -1,58 +1,56 @@
-CC = clang
-CFLAGS = -Wall -Wextra -Werror -ggdb  -c 
-LFLAGS = -L./dist -lft 
-GFLAGS = -fsanitize=address
-NAME = minirt
-AR = ar -crs
-NAME_LIB = minitrt.a
+
+CC     	  := clang
+CFLAGS 	  := -Wall -Wextra -Werror -ggdb  -c 
+LFLAGS 	  := -L./dist -lft 
+GFLAGS 	  := -fsanitize=address
+NAME   	  := minirt
+AR     	  := ar -crs
+
+RESET := \033[0m
+CYAN  := \033[1;36m
+CHECK := \342\234\224
+LOG   := printf "[$(CYAN)$(CHECK)$(RESET)] %s\n"
 
 
-#----------------- directories
-OBJ_DIR = dist
-OBJ_DIRS = $(OBJ_DIR) \
-			$(OBJ_DIR)/ray \
-			$(OBJ_DIR)/memory \
-			$(OBJ_DIR)/vector
+OBJ_DIR   :=  dist
+LIBFT_DIR := ./libs/libft
+MLX_DIR   := ./libs/mlx_linux
 
-# -------------- end directories			
+SOURCES   := $(shell find src -type f -name '*.c') 
+OBJECTS   := $(addprefix $(OBJ_DIR)/, $(notdir $(SOURCES:.c=.o)))
+LIBFT     := $(OBJ_DIR)/libft.a
+DIRS      := $(dir $(SOURCES))
 
-# --------------------- source code
-TARGETS = 	main.c \
-			vector/vector.c \
-			memory/memory.c \
-			ray/ray.c
-			
-SRC = $(addprefix ./src/,$(TARGETS))
-SRC_OBJ = $(addprefix ./$(OBJ_DIR)/,$(TARGETS:.c=.o)) 
-# --------------------- end source code
+vpath %.h ./includes
+vpath %.c $(DIRS)
 
-# ---------------- tests
-TEST_TARGETS =  tests/main.c
+# --------------------- valgrind
+VALGRIND_FLAGS := --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=supp.supp -s
 
-TESTS_OBJS = $(addprefix ./$(OBJ_DIR)/,$(TEST_TARGETS:.c=.o))
-# -------------------- end tests
- 
-LIBFT = $(OBJ_DIR)/libft.a
+all: $(NAME)
 
-VALGRIND_FLAGS = --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=supp.supp -s
-
-all: $(NAME) 
+debug:
+	@echo $(SOURCES)
+	@echo $(OBJECTS)
+	@echo $(DIRS)
 
 valgrind: $(NAME)	
 	valgrind $(VALGRIND_FLAGS) ./$(NAME) 
 
-$(NAME): $(OBJ_DIR) $(LIBFT) $(SRC_OBJ)
+$(NAME): $(OBJECTS) $(LIBFT)
 	cp libs/libft/libft.a $(LIBFT)
-	$(CC) $(SRC_OBJ) $(LFLAGS) $(GFLAGS) -o $(NAME)
+	$(CC) $(OBJECTS) $(LFLAGS) $(GFLAGS) -o $(NAME)
 
-$(OBJ_DIR)/%.o: src/%.c
+$(OBJ_DIR)/%.o: %.c $(OBJ_DIR)
+	@$(LOG) "Compiling $(notdir $<)"
 	$(CC) $(CFLAGS) $< -o $@
 
 $(LIBFT): $(OBJ_DIR)
 	make -C libs/libft
 
-$(OBJ_DIRS):
-	mkdir -p $(OBJ_DIRS)
+$(OBJ_DIR):
+	@$(LOG) "Creating objects directory"
+	@mkdir -p $@
 
 dclean: fclean
 	make -C libs/libft fclean
@@ -61,13 +59,12 @@ dtest:
 	make -C libs/libft test
 
 clean: 
-	rm -f $(SRC_OBJ)
-	rm -f $(TESTS_OBJS)
+	rm -f $(OBJECTS)
+	rm -f $(TESTS_OBJECTS)
 
 fclean: clean 
 	rm -f $(NAME)
 	rm -f $(LIBFT)
-	rm -f $(NAME_LIB)
 
 re: fclean $(NAME)
 
