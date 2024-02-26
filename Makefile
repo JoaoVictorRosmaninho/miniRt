@@ -66,6 +66,6 @@ fclean: clean
 	rm -f $(NAME)
 	rm -f $(LIBFT)
 
-re: fclean $(NAME)
+re: dclean $(NAME)
 
 .PHONY: dclean clean fclean all re

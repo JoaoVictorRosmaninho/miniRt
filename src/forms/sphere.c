@@ -1,7 +1,7 @@
 #include "../../includes/sphere.h"
 
 
-unsigned char hit_sphere(t_position *center, float radius, t_ray *ray) {
+unsigned char hit_sphere(t_vector *center, float radius, t_ray *ray) {
 
     t_vector *orientation = vsub(ray->origin, center);
 

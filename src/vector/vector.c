@@ -1,6 +1,6 @@
 #include "../../includes/minit_rt.h"
 
-extern t_memory* memory;
+extern t_memory g_memory;
 
 void    vector_write_color(t_vector *v, int out)
 { 
@@ -42,14 +42,8 @@ float dot(t_vector* a,  t_vector* b) {
 }
 
 t_vector* vector_new(float x, float y, float z) {
-
-    e_memory_type write_in;
-
-    write_in = LONG;
-
-    if (memory) write_in = memory->where_write;
     
-    t_vector* vector = (t_vector *) new(1, sizeof(t_vector), vector_free,write_in);
+    t_vector* vector = (t_vector *) new(1, sizeof(t_vector), g_memory.coliseu_id);
 
     vector->x = x;
     vector->y = y;

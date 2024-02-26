@@ -1,16 +1,11 @@
 #include "../../includes/minit_rt.h"
 
-extern t_memory* memory;
-
-static void ray_free(void *ray) {
-    free((t_ray *) ray);
-}
-
+extern t_memory g_memory;
 
 t_ray* ray_new(t_vector* center, t_vector* direction) {
     t_ray *ray;
 
-    ray = (t_ray *) new(1, sizeof(t_ray),  ray_free, memory->where_write);
+    ray = (t_ray *) new(1, sizeof(t_ray), g_memory.coliseu_id);
 
     ray->direction = direction;
     ray->origin    = center;

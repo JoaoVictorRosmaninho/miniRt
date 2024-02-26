@@ -26,6 +26,7 @@ LDLIBS  := -lft -lcriterion
 
 define run
  	$(CC) $(CFLAGS) $^ $(LDFLAGS) $(LDLIBS) $(GFLAGS) -o $@ && ./$@ --verbose
+	rm ./$@
 endef
 
 ################################################################################
@@ -41,6 +42,8 @@ debug:
 
 vector: $(OBJS) test_vector_creator.c
 	@$(call run, "$^")
+
+(OBJ_DIR)/%.o: %.c
 
 # Makefile rules to clean stdin/stdout/stderr test's files
 clean:
