@@ -1,9 +1,9 @@
 #include "utils.h"
 
-extern t_memory *memory;
+extern t_memory g_memory;
 
 void teardown(void) {
-    memory->memory_flush(ALL);
+   memory_destroy();
 }
 
 Test(vector, vector_new)

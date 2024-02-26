@@ -7,6 +7,7 @@
         "memory.h": "c",
         "chrono": "c",
         "functional": "c",
-        "sphere.h": "c"
+        "sphere.h": "c",
+        "stdio.h": "c"
     }
 }
