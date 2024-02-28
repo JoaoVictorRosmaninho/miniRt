@@ -2,11 +2,18 @@
 
 extern t_memory g_memory;
 
-void teardown(void) {
-   memory_destroy();
+void setup(void) {
+    g_memory.memory[LONG].door   = NULL;
+    g_memory.memory[LONG].region = NULL;
+    g_memory.memory[LONG].size   = ARENA_256B;
+    g_memory.coliseu_id = LONG;
 }
 
-Test(vector, vector_new)
+void teardown(void) {
+    ft_arena_destroy(&g_memory.memory[LONG]);
+}
+
+Test(vector, vector_new, .init = setup, .fini = teardown)
 {
     t_vector*   vector;
 
@@ -17,11 +24,12 @@ Test(vector, vector_new)
     cr_assert_float_eq(vector->z, 3.0, EPSILON);
 }
 
-Test(vector, vsum) 
+Test(vector, vsum, .init = setup, .fini = teardown) 
 {
     t_vector* v1; 
     t_vector* v2;
     t_vector* v3;
+
 
     v1 = vector_new(1,1,1); 
     v2 = vector_new(1,1,1);
@@ -31,6 +39,5 @@ Test(vector, vsum)
     cr_assert_float_eq(v3->x, 2.0, EPSILON);
     cr_assert_float_eq(v3->y, 2.0, EPSILON);
     cr_assert_float_eq(v3->z, 2.0, EPSILON);
-
 }
 
