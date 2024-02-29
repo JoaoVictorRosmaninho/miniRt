@@ -26,18 +26,66 @@ Test(vector, vector_new, .init = setup, .fini = teardown)
 
 Test(vector, vsum, .init = setup, .fini = teardown) 
 {
-    t_vector* v1; 
-    t_vector* v2;
-    t_vector* v3;
 
+    {
+        t_vector* v1; 
+        t_vector* v2;
+        t_vector* v3;
+        v1 = vector_new(1,1,1); 
+        v2 = vector_new(1,1,1);
 
-    v1 = vector_new(1,1,1); 
-    v2 = vector_new(1,1,1);
+        v3 = vsum(v1, v2);
 
-    v3 = vsum(v1, v2);
+        cr_assert_float_eq(v3->x, 2.0, EPSILON);
+        cr_assert_float_eq(v3->y, 2.0, EPSILON);
+        cr_assert_float_eq(v3->z, 2.0, EPSILON);
 
-    cr_assert_float_eq(v3->x, 2.0, EPSILON);
-    cr_assert_float_eq(v3->y, 2.0, EPSILON);
-    cr_assert_float_eq(v3->z, 2.0, EPSILON);
+    }
+    {
+        t_vector* v1; 
+        t_vector* v2;
+        t_vector* v3;
+        v1 = vector_new(3,-2,5); 
+        v2 = vector_new(-2,3,1);
+
+        v3 = vsum(v1, v2);
+
+        cr_assert_float_eq(v3->x, 1.0, EPSILON);
+        cr_assert_float_eq(v3->y, 1.0, EPSILON);
+        cr_assert_float_eq(v3->z, 6.0, EPSILON);
+    }
 }
+
+Test(vector, vsub, .init = setup, .fini = teardown) 
+{
+
+    {
+        t_vector* v1; 
+        t_vector* v2;
+        t_vector* v3;
+        v1 = vector_new(3,2,1); 
+        v2 = vector_new(5,6,7);
+
+        v3 = vsub(v1, v2);
+
+        cr_assert_float_eq(v3->x, -2.0, EPSILON);
+        cr_assert_float_eq(v3->y, -4.0, EPSILON);
+        cr_assert_float_eq(v3->z, -6.0, EPSILON);
+
+    }
+    {
+        t_vector* v1; 
+        t_vector* v2;
+        t_vector* v3;
+        v1 = vector_new(3,2,1); 
+        v2 = vector_new(5,6,7);
+
+        v3 = vsub(v1, v2);
+
+        cr_assert_float_eq(v3->x, -2.0, EPSILON);
+        cr_assert_float_eq(v3->y, -4.0, EPSILON);
+        cr_assert_float_eq(v3->z, -6.0, EPSILON);
+    }
+}
+
 
