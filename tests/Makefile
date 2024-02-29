@@ -22,7 +22,7 @@ CFLAGS  := -Wall -Werror -Wextra -O3 $(addprefix -I,$(INC_DIRS))
 LDFLAGS := -L $(LIBFT_DIR) -L $(MLX_DIR)
 GFLAGS  := -fsanitize=address
 #  -lmlx -lXext -lX11 -lm
-LDLIBS  := -lft -lcriterion
+LDLIBS  := -lft -lcriterion -lm
 
 define run
  	$(CC) $(CFLAGS) $^ $(LDFLAGS) $(LDLIBS) $(GFLAGS) -o $@ && ./$@ --verbose

@@ -1,7 +1,7 @@
 
 CC     	  := clang
 CFLAGS 	  := -Wall -Wextra -Werror -ggdb  -c 
-LFLAGS 	  := -L./dist -lft 
+LFLAGS 	  := -L./dist -lft -lm
 GFLAGS 	  := -fsanitize=address
 NAME   	  := minirt
 AR     	  := ar -crs

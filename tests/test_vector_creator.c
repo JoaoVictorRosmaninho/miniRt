@@ -88,4 +88,64 @@ Test(vector, vsub, .init = setup, .fini = teardown)
     }
 }
 
+Test(vector, vneg, .init = setup, .fini = teardown) 
+{
+    t_vector *zero = vector_new(1.0,2.0,3.0);
+
+    t_vector* result = vneg(zero);
+
+    cr_assert_float_eq(result->x, -1.0, EPSILON);
+    cr_assert_float_eq(result->y, -2.0, EPSILON);
+    cr_assert_float_eq(result->z, -3.0, EPSILON);
+}
+
+Test(vector, vmultf, .init = setup, .fini = teardown) 
+{
+    t_vector *zero = vector_new(1.0,2.0,3.0);
+
+    t_vector* result = vmultf(zero, 3.5);
+
+    cr_assert_float_eq(result->x, 3.5, EPSILON);
+    cr_assert_float_eq(result->y, 7.0, EPSILON);
+    cr_assert_float_eq(result->z, 10.5, EPSILON);
+
+    zero   = vector_new(-1, -2, -4);
+    result = vmultf(zero, 0.5);
+
+    cr_assert_float_eq(result->x, -0.5, EPSILON);
+    cr_assert_float_eq(result->y, -1.0, EPSILON);
+    cr_assert_float_eq(result->z, -2.0, EPSILON);
+
+}
+
+Test(vector, vmagnitude, .init = setup, .fini = teardown)  {
+    t_vector* v1 = vector_new(1,0,0);
+    t_vector* v2 = vector_new(-1,-2,-3);
+
+    cr_assert_float_eq(vmagnitude(v1), 1.0, EPSILON);
+    cr_assert_float_eq(vmagnitude(v2), sqrt(14), EPSILON);
+}
+
+Test(vector, vnormalize, .init = setup, .fini = teardown)  {
+    t_vector* v1 = vector_new(4,0,0);
+    t_vector* v2 = vector_new(1,2,3);
+
+    t_vector* result = vnormalize(v1);
+
+    cr_assert_float_eq(result->x, 1.0, EPSILON);
+    cr_assert_float_eq(result->y, 0.0, EPSILON);
+    cr_assert_float_eq(result->z, 0.0, EPSILON);
+
+    result = vnormalize(v2);
+    cr_assert_float_eq(result->x, 1.0/sqrt(14.0), EPSILON);
+    cr_assert_float_eq(result->y, 2.0/sqrt(14.0), EPSILON);
+    cr_assert_float_eq(result->z, 3.0/sqrt(14.0), EPSILON);
+
+    result = vnormalize(vector_new(1,2,3));
+
+    cr_assert_float_eq(vmagnitude(result), 1.0, EPSILON);
+}
+
+
+
 

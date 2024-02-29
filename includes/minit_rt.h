@@ -62,11 +62,14 @@ t_vector* vmultf(t_vector *a, float factor);
 t_vector* vdivf(t_vector *a, float factor);
 t_vector* vector_new(float x, float y, float z);
 t_vector  vector_new_stack(float x, float y, float z);
+t_vector* vneg(t_vector *vector);
 float     dot(t_vector* a,  t_vector* b);
 void      vector_free(void *vector);
 void      vector_write_color(t_vector *v, int out);
 void      vector_to_str(t_vector *v);
 double    vsqrt(t_vector *a);
 float     vsquared(t_vector *a);
+double    vmagnitude(t_vector *vector);
+t_vector* vnormalize(t_vector *vector) ;
 
 #endif
