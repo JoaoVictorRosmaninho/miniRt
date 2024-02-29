@@ -14,6 +14,7 @@
 # define VIEWPORT 2.0
 
 
+
 typedef struct s_vector {
     float x;
     float y;
@@ -35,14 +36,14 @@ typedef struct {
     float focal_center;
 } t_context;
 
-
-
 typedef enum {
     CMD_ERROR,
     MEM_ERROR,
     NO_ERROR
 } e_errors;
 
+typedef t_vector t_point;
+typedef t_vector t_color;
 
 #include "./memory.h"
 #include "./sphere.h"
