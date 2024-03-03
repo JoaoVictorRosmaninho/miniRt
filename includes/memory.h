@@ -8,12 +8,12 @@
 
 typedef struct {
   t_coliseu memory[COLISEU_SIZES];
-  unsigned char coliseu_id;
+  unsigned char coliseu;
 } t_memory;
 
-void* new(size_t count, size_t size_of_struct, unsigned char coliseu_id);
+void* new(size_t count, size_t size_of_struct, unsigned char coliseu);
 
-void memory_flush(unsigned char coliseu_id);
+void memory_flush(unsigned char coliseu);
 
 void memory_destroy(void);
 #endif

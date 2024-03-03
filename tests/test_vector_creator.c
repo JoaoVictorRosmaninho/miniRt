@@ -6,7 +6,7 @@ void setup(void) {
     g_memory.memory[LONG].door   = NULL;
     g_memory.memory[LONG].region = NULL;
     g_memory.memory[LONG].size   = ARENA_256B;
-    g_memory.coliseu_id = LONG;
+    g_memory.coliseu = LONG;
 }
 
 void teardown(void) {
@@ -144,6 +144,25 @@ Test(vector, vnormalize, .init = setup, .fini = teardown)  {
     result = vnormalize(vector_new(1,2,3));
 
     cr_assert_float_eq(vmagnitude(result), 1.0, EPSILON);
+}
+
+Test(vector, vdot, .init = setup, .fini = teardown) {
+    cr_assert_float_eq(vdot(vector_new(1,2,3), vector_new(2,3,4)), 20.0, EPSILON);
+}
+
+Test(vector, vcross, .init = setup, .fini = teardown) {
+    
+    t_vector* r = vcross(vector_new(1,2,3), vector_new(2,3,4));
+
+    cr_assert_float_eq(r->x, -1.0, EPSILON);
+    cr_assert_float_eq(r->y,  2.0, EPSILON);
+    cr_assert_float_eq(r->z, -1.0, EPSILON);
+    
+    r = vcross(vector_new(2,3,4), vector_new(1,2,3));
+
+    cr_assert_float_eq(r->x, 1.0, EPSILON);
+    cr_assert_float_eq(r->y, -2.0, EPSILON);
+    cr_assert_float_eq(r->z, 1.0, EPSILON);
 }
 
 

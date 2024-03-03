@@ -5,7 +5,7 @@ extern t_memory g_memory;
 t_ray* ray_new(t_vector* center, t_vector* direction) {
     t_ray *ray;
 
-    ray = (t_ray *) new(1, sizeof(t_ray), g_memory.coliseu_id);
+    ray = (t_ray *) new(1, sizeof(t_ray), g_memory.coliseu);
 
     ray->direction = direction;
     ray->origin    = center;
