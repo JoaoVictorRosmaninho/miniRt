@@ -20,7 +20,7 @@ static e_errors parse_and_init(t_context *ctx, int argc, char *argv[])
 
     g_memory.memory[LONG].door   = NULL;
     g_memory.memory[LONG].region = NULL;
-    g_memory.memory[LONG].size   = ARENA_8M;
+    g_memory.memory[LONG].size   = ARENA_8KB;
 
     g_memory.coliseu          = LONG;
     return NO_ERROR;
@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
     
     if (parse_and_init(&context, argc, argv) == NO_ERROR) {
         
-        memory_destroy();
+        memory_destroy(NULL);
         close(context.file);
     } else {
         ft_fprintf(2, "command_line error");

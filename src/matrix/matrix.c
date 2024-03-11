@@ -16,7 +16,7 @@ uint8_t matrix_eq(t_matrix* a, t_matrix* b, unsigned int row, unsigned int col) 
     return (1);
 }
 
-t_matrix* matrix_mult(t_matrix* a, t_matrix* b) {
+t_matrix* matrix_mult(t_matrix* a, t_matrix* b, t_coliseu* coliseu) {
     t_matrix* result;
     unsigned int r;
     unsigned int c;
@@ -28,7 +28,7 @@ t_matrix* matrix_mult(t_matrix* a, t_matrix* b) {
         return (NULL);
     }
     sum = 0.0; r = 0; c = 0; index = 0;
-    result = matrix_new(a->rows, b->cols);
+    result = matrix_new(a->rows, b->cols, coliseu);
 
     while (r < a->rows) {
         while (c < b->cols) {
@@ -48,12 +48,12 @@ t_matrix* matrix_mult(t_matrix* a, t_matrix* b) {
 }
 
 
-t_matrix* matrix_new(unsigned short int rows, unsigned short int cols) {
+t_matrix* matrix_new(unsigned short int rows, unsigned short int cols, t_coliseu* coliseu) {
     unsigned int offset;
     t_matrix* m;
 
     offset = 1;
-    m        =  new(1, sizeof(t_matrix), g_memory.coliseu);
+    m        =  new(1, sizeof(t_matrix), coliseu);
     
     if (!m) {
         ft_printf("%s\n", "Erro ao Alocar matriz");
@@ -61,13 +61,13 @@ t_matrix* matrix_new(unsigned short int rows, unsigned short int cols) {
     }
     m->cols  = cols;
     m->rows  = rows;
-    m->lines = new(rows, sizeof(double*), g_memory.coliseu);
+    m->lines = new(rows, sizeof(double*), coliseu);
 
-    m->lines[0] = (double*) new(rows * cols, sizeof(double), g_memory.coliseu);
+    m->lines[0] = (double*) new(rows * cols, sizeof(double), coliseu);
 
     if (!m->lines[0]) {
         ft_printf("%s\n", "Erro ao Alocar matriz");
-        ft_coliseu_rollback(g_memory.memory[g_memory.coliseu].region, rows * sizeof(void*));
+        ft_coliseu_rollback(coliseu->region, rows * sizeof(void*));
         return (NULL);
     }
 
@@ -86,13 +86,13 @@ double matrix_get(unsigned short r, unsigned short c, t_matrix* m) {
     return (m->lines[r][c]);
 }
 
-t_matrix* matrix_transpose(t_matrix *m)
+t_matrix* matrix_transpose(t_matrix *m, t_coliseu* coliseu)
 {
     t_matrix* result;
     unsigned short r;
     unsigned short c;
 
-    result = matrix_new(m->rows, m->cols);
+    result = matrix_new(m->rows, m->cols, coliseu);
     if (!result)
         return (NULL);
     r = 0; c =  0;
@@ -108,7 +108,7 @@ t_matrix* matrix_transpose(t_matrix *m)
     return (result);
 }
 
-t_matrix* matrix_submatrix(t_matrix *m, unsigned short int row, unsigned short int col) {
+t_matrix* matrix_submatrix(t_matrix *m, unsigned short int row, unsigned short int col, t_coliseu* coliseu) {
     t_matrix* result;
     unsigned short r;
     unsigned short c;
@@ -118,7 +118,7 @@ t_matrix* matrix_submatrix(t_matrix *m, unsigned short int row, unsigned short i
     if (row > m->rows || col > m->cols)
         return (NULL);
     r = 0; c = 0; r1 = 0; c1 = 0;
-    result = matrix_new(m->rows - 1, m->cols- 1);
+    result = matrix_new(m->rows - 1, m->cols- 1, coliseu);
 
     while (r < m->rows) {
         if (r != row) {
@@ -138,43 +138,76 @@ t_matrix* matrix_submatrix(t_matrix *m, unsigned short int row, unsigned short i
     return (result);
 }
 
+t_matrix *matrix_reverse(t_matrix *m, t_coliseu* coliseu)
+{
+    t_matrix* reverse;
+
+    unsigned short int r;
+    unsigned short int c;
+    double determinant;
+
+    r = 0; c = 0;
+
+    if (!matrix_reversible(m))
+        return (NULL);
+
+    determinant = matrix_determinant(m);
+    reverse     = matrix_new(m->rows, m->cols, coliseu);
+
+    while (c < m->cols) {
+        while (r < m->rows) {
+            reverse->lines[c][r] = matrix_cofactor(m, r,  c) / determinant;
+            r++;
+        }
+        r = 0;
+        c++;
+    }
+    return (reverse);
+}
+
 double matrix22_determiant(t_matrix *m) {
     if (m->cols != 2 || m->rows != 2)
         return (0.0);
-    return(m->lines[0][0] * m->lines[1][1] - m->lines[0][1] * m->lines[1][0]);
-    }
+    return ((m->lines[0][0] * m->lines[1][1]) - (m->lines[0][1] * m->lines[1][0]));;
+}
+
 
 double matrix_determinant(t_matrix* m) {
-    double det;
-    unsigned short c;
+    static t_coliseu local = { .door = NULL, .region = NULL, .size = ARENA_65KB };
     
-    if (m->rows < 3 && m->cols < 3)
-        return (matrix22_determiant(m));
-    det  = 0.0;
-    c    = 0;
+    double         determinant = 0.0;
+    unsigned short c;
+    t_matrix*      sub;
 
-    while ( c < m->cols ) {
-        det += m->lines[0][c] * matrix_cofactor(m, 0, c);
+    if (m->rows == 2 && m->cols == 2) 
+        return (matrix22_determiant(m));
+ 
+    c = 0;
+    while(c < m->cols) { 
+        sub = matrix_submatrix(m, 0, c, &local);
+        if (c & 1)
+            determinant += m->lines[0][c] * -matrix_determinant(sub);
+        else 
+           determinant += m->lines[0][c]  * matrix_determinant(sub); 
         c++;
     }
-    return (det);
+    ft_arena_destroy(&local);
+    return (determinant);
 }
 
 double matrix_minor(t_matrix* m, unsigned short row, unsigned short col) {
 
     t_matrix* r;
-    double determinant;
+    double    determinant;
 
-    r           = matrix_submatrix(m, row, col);
-    determinant = matrix22_determiant(r);
+    r           = matrix_submatrix(m, row, col, NULL);
+    determinant = matrix_determinant(r);
 
-    // TA ZOADO, tenho que melhorar a interface de memoria,  caso uma função  queira criar um  coliseu prorio, no  problem
-    ft_coliseu_rollback(g_memory.memory[g_memory.coliseu].region, r->rows * r->cols * sizeof(double) + sizeof(double*));
     return (determinant);
 }
 
 double matrix_cofactor(t_matrix *a, unsigned short row, unsigned short col) {
-    if ((row + col) & 1)
+    if ((row + 1 + col + 1) & 1)
         return (-matrix_minor(a, row, col));
     return (matrix_minor(a, row, col));
 }

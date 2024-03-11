@@ -26,6 +26,7 @@ LDLIBS  := -lft -lcriterion -lm
 
 define run
  	$(CC) $(CFLAGS) $^ $(LDFLAGS) $(LDLIBS) $(GFLAGS) -o $@ && ./$@ --verbose
+	rm ./$@
 endef
 
 ################################################################################
@@ -40,6 +41,9 @@ debug:
 	@echo $(OBJS)
 
 vector: $(OBJS) test_vector_creator.c
+	@$(call run, "$^")
+
+matrix: $(OBJS) test_matrix.c
 	@$(call run, "$^")
 
 (OBJ_DIR)/%.o: %.c

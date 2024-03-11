@@ -71,7 +71,7 @@ t_vector* vcross(t_vector* a, t_vector* b) {
 
 t_vector* vector_new(float x, float y, float z) {
     
-    t_vector* vector = (t_vector *) new(1, sizeof(t_vector), g_memory.coliseu);
+    t_vector* vector = (t_vector *) new(1, sizeof(t_vector), NULL);
 
     vector->x = x;
     vector->y = y;

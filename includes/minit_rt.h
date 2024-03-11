@@ -1,11 +1,13 @@
 #ifndef MINIRT_H
 #define MINIRT_H
 
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <math.h>
+
 
 #include "../libs/libft/includes/libft.h"
 
@@ -38,9 +40,13 @@ typedef enum {
 
 typedef t_vector t_point;
 typedef t_vector t_color;
+typedef t_vector t_translation;
 
 #include "./memory.h"
+#include "./matrix.h"
 #include "./sphere.h"
+
+
 
 //ray 
 
