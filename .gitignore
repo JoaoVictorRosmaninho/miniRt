@@ -1,7 +1,0 @@
-minirt
-*.o
-dist
-*.ppm
-core*
-miniRT.pdf
-*.pdf

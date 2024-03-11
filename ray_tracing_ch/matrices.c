@@ -1,0 +1,176 @@
+#include <math.h>
+#include <stdbool.h>
+#include <stdint.h>
+
+#include "matrices.h"
+#include "tuples.h"
+
+bool mat2Eq(const Mat2 a, const Mat2 b)
+{
+    for (int i = 0; i < 2; i++)
+    {
+        for (int j = 0; j < 2; j++)
+        {
+            if (fabs(a[i][j] - b[i][j]) >= MAT_EPSILON)
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+bool mat3Eq(const Mat3 a, const Mat3 b)
+{
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            if (fabs(a[i][j] - b[i][j]) >= MAT_EPSILON)
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+bool mat4Eq(const Mat4 a, const Mat4 b)
+{
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            if (fabs(a[i][j] - b[i][j]) >= MAT_EPSILON)
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+void mat2Mul(Mat2 dest, const Mat2 a, const Mat2 b)
+{
+    dest[0][0] = a[0][0] * b[0][0] + a[0][1] * b[1][0];
+    dest[0][1] = a[0][0] * b[0][1] + a[0][1] * b[1][1];
+    dest[1][0] = a[1][0] * b[0][0] + a[1][1] * b[1][0];
+    dest[1][1] = a[1][0] * b[0][1] + a[1][1] * b[1][1];
+}
+
+void mat4Mul(Mat4 dest, const Mat4 a, const Mat4 b)
+{
+    for (uint64_t row = 0; row < 4; row++)
+    {
+        for (uint64_t col = 0; col < 4; col++)
+        {
+            for (uint64_t i = 0; i < 4; i++)
+            {
+                dest[row][col] += a[row][i] * b[i][col];
+            }
+        }
+    }
+}
+
+Tuple mat4VecMul(const Mat4 mat, const Tuple vec)
+{
+    return (Tuple){.x = vec.x * mat[0][0] + vec.y * mat[0][1] + vec.z * mat[0][2] + vec.w * mat[0][3],
+                   .y = vec.x * mat[1][0] + vec.y * mat[1][1] + vec.z * mat[1][2] + vec.w * mat[1][3],
+                   .z = vec.x * mat[2][0] + vec.y * mat[2][1] + vec.z * mat[2][2] + vec.w * mat[2][3],
+                   .w = vec.x * mat[3][0] + vec.y * mat[3][1] + vec.z * mat[3][2] + vec.w * mat[3][3]};
+}
+
+void mat4Trans(Mat4 dest, const Mat4 a)
+{
+    for (uint64_t i = 0; i < 4; i++)
+    {
+        for (uint64_t j = 0; j < 4; j++)
+        {
+            dest[i][j] = a[j][i];
+            dest[j][i] = a[i][j];
+        }
+    }
+}
+
+double mat2Det(const Mat2 a)
+{
+    return a[0][0] * a[1][1] - a[1][0] * a[0][1];
+}
+
+void mat3SubM(Mat2 dest, const uint64_t row, const uint64_t col, const Mat3 a)
+{
+    uint64_t skipRow = 0;
+    uint64_t skipCol = 0;
+    for (uint64_t i = 0; i < 2; i++)
+    {
+        for (uint64_t j = 0; j < 2; j++)
+        {
+            if (i == row || j == col)
+            {
+                if (i == row)
+                {
+                    skipRow = 1;
+                    dest[i][j] = a[i + skipRow][j + skipCol];
+                }
+                if (j == col)
+                {
+                    skipCol = 1;
+                    dest[i][j] = a[i + skipRow][j + skipCol];
+                }
+            }
+            else
+            {
+                dest[i][j] = a[i + skipRow][j + skipCol];
+            }
+        }
+        skipCol = 0;
+    }
+}
+
+void mat4SubM(Mat3 dest, const uint64_t row, const uint64_t col, const Mat4 a)
+{
+    uint64_t skipRow = 0;
+    for (uint64_t i = 0; i < 3; i++)
+    {
+        uint64_t skipCol = 0;
+        for (uint64_t j = 0; j < 3; j++)
+        {
+            if (i == row || j == col)
+            {
+                if (i == row)
+                {
+                    skipRow = 1;
+                    dest[i][j] = a[i + skipRow][j + skipCol];
+                }
+                if (j == col)
+                {
+                    skipCol = 1;
+                    dest[i][j] = a[i + skipRow][j + skipCol];
+                }
+            }
+            else
+            {
+                dest[i][j] = a[i + skipRow][j + skipCol];
+            }
+        }
+    }
+}
+
+double mat3Min(const uint64_t row, uint64_t col, const Mat3 a)
+{
+    Mat2 submatrix;
+    mat3SubM(submatrix, row, col, a);
+    return mat2Det(submatrix);
+}
+
+double mat3Cof(const uint64_t row, uint64_t col, const Mat3 a)
+{
+    if (row % 2 != col % 2)
+    {
+        return -mat3Min(row, col, a);
+    }
+    else
+    {
+        return mat3Min(row, col, a);
+    }
+}
