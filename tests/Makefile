@@ -20,9 +20,9 @@ OBJS    := $(addprefix $(OBJ_DIR)/, $(SOURCES:.c=.o))
 
 CFLAGS  := -Wall -Werror -Wextra -O3 $(addprefix -I,$(INC_DIRS))
 LDFLAGS := -L $(LIBFT_DIR) -L $(MLX_DIR)
-GFLAGS  := -fsanitize=address
+GFLAGS  := -fsanitize=address -g
 #  -lmlx -lXext -lX11 -lm
-LDLIBS  := -lft -lcriterion
+LDLIBS  := -lft -lcriterion -lm
 
 define run
  	$(CC) $(CFLAGS) $^ $(LDFLAGS) $(LDLIBS) $(GFLAGS) -o $@ && ./$@ --verbose
@@ -41,6 +41,9 @@ debug:
 	@echo $(OBJS)
 
 vector: $(OBJS) test_vector_creator.c
+	@$(call run, "$^")
+
+matrix: $(OBJS) test_matrix.c
 	@$(call run, "$^")
 
 (OBJ_DIR)/%.o: %.c

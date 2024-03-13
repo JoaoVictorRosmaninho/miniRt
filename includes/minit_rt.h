@@ -1,24 +1,20 @@
 #ifndef MINIRT_H
 #define MINIRT_H
 
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <math.h>
 
+
 #include "../libs/libft/includes/libft.h"
 
-# define WIDTH 400
-# define ASPECT 16/9.0
-# define VIEWPORT 2.0
-
-
-
 typedef struct s_vector {
-    float x;
-    float y;
-    float z;
+    double x;
+    double y;
+    double z;
 } t_vector;
 
 typedef struct s_ray {
@@ -46,7 +42,10 @@ typedef t_vector t_point;
 typedef t_vector t_color;
 
 #include "./memory.h"
+#include "./matrix.h"
 #include "./sphere.h"
+
+
 
 //ray 
 
@@ -62,11 +61,16 @@ t_vector* vmultf(t_vector *a, float factor);
 t_vector* vdivf(t_vector *a, float factor);
 t_vector* vector_new(float x, float y, float z);
 t_vector  vector_new_stack(float x, float y, float z);
-float     dot(t_vector* a,  t_vector* b);
+t_vector* vneg(t_vector *vector);
+t_vector* vcross(t_vector* a, t_vector* b);
+t_vector* vnormalize(t_vector *vector) ;
+double    vdot(t_vector* a,  t_vector* b);
 void      vector_free(void *vector);
 void      vector_write_color(t_vector *v, int out);
 void      vector_to_str(t_vector *v);
 double    vsqrt(t_vector *a);
 float     vsquared(t_vector *a);
+double    vmagnitude(t_vector *vector);
+uint8_t vector_equals(t_vector* a, t_vector*  b);
 
 #endif

@@ -8,6 +8,17 @@
         "chrono": "c",
         "functional": "c",
         "sphere.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "variant": "c",
+        "matrix.h": "c",
+        "linked.h": "c",
+        "any": "c",
+        "*.tcc": "c",
+        "bitset": "c",
+        "concepts": "c",
+        "memory_resource": "c",
+        "optional": "c",
+        "new": "c",
+        "stop_token": "c"
     }
 }
