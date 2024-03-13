@@ -40,7 +40,6 @@ typedef enum {
 
 typedef t_vector t_point;
 typedef t_vector t_color;
-typedef t_vector t_translation;
 
 #include "./memory.h"
 #include "./matrix.h"

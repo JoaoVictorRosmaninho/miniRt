@@ -108,6 +108,24 @@ t_matrix* matrix_transpose(t_matrix *m, t_coliseu* coliseu)
     return (result);
 }
 
+t_matrix* matrix_identy(unsigned short int rows, unsigned short int cols, t_coliseu* coliseu) {
+    t_matrix* m;
+    unsigned int r;
+    
+    if (rows != cols)
+        return (NULL);
+
+    r = 0;
+    m = matrix_new(rows,  cols,  coliseu);
+
+    while (r < rows) {
+        m->lines[r][r] = 1;
+        r++;
+    }
+
+    return(m);
+}
+
 t_matrix* matrix_submatrix(t_matrix *m, unsigned short int row, unsigned short int col, t_coliseu* coliseu) {
     t_matrix* result;
     unsigned short r;
