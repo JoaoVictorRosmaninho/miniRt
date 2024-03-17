@@ -1,7 +1,4 @@
-#include "../../includes/matrix.h"
-
-extern t_memory g_memory;
-
+#include "../../includes/minit_rt.h"
 
 uint8_t matrix_eq(t_matrix* a, t_matrix* b, unsigned int row, unsigned int col) {
     unsigned int index;
@@ -16,6 +13,29 @@ uint8_t matrix_eq(t_matrix* a, t_matrix* b, unsigned int row, unsigned int col) 
     return (1);
 }
 
+t_matrix* matrix_mult_chain(int num_args, ...) {
+    va_list       ap;
+    t_matrix*     m;
+    t_coliseu*    coliseu;
+    int  i;
+
+    va_start(ap, num_args);
+
+    i          = 0;
+    coliseu    = va_arg(ap, t_coliseu*);
+    m          = va_arg(ap, t_matrix*);
+    num_args  -= 2;
+
+    while ( i < num_args  ) {
+        m = matrix_mult(m, va_arg(ap, t_matrix*), coliseu);
+        i++;
+    }
+
+    va_end(ap);
+
+    return(m);
+}
+
 t_matrix* matrix_mult(t_matrix* a, t_matrix* b, t_coliseu* coliseu) {
     t_matrix* result;
     unsigned int r;
@@ -24,17 +44,17 @@ t_matrix* matrix_mult(t_matrix* a, t_matrix* b, t_coliseu* coliseu) {
     double       sum;
 
     if (a->cols != b->rows) {
-        ft_printf("%s\n", "numero de colunas da mat A tem que ser igual ao n° de linhas da mat B");
+        printf("numero de colunas da mat A %d tem que ser igual ao n° de linhas da mat B  %d\n", a->cols, b->rows);
         return (NULL);
     }
     sum = 0.0; r = 0; c = 0; index = 0;
     result = matrix_new(a->rows, b->cols, coliseu);
 
-    while (r < a->rows) {
-        while (c < b->cols) {
+    while (r < b->rows) {
+        while (c < a->cols) {
             sum   = 0.0;
             index = 0;
-            while (index < a->rows) {
+            while (index < a->cols) {
                 sum += a->lines[r][index] * b->lines[index][c];
                 index++;
             }

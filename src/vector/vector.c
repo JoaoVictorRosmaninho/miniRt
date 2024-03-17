@@ -1,7 +1,5 @@
 #include "../../includes/minit_rt.h"
 
-extern t_memory g_memory;
-
 void  vector_write_color(t_color* v, int out)
 { 
 
@@ -69,13 +67,28 @@ t_vector* vcross(t_vector* a, t_vector* b) {
     );
 }
 
-t_vector* vector_new(float x, float y, float z) {
+t_vector* vector_new(double x, double y, double z) {
     
     t_vector* vector = (t_vector *) new(1, sizeof(t_vector), NULL);
 
     vector->x = x;
     vector->y = y;
     vector->z = z;
+
+    return (vector);
+}
+
+t_vector2* vector_new2(double x, double y, double z, t_coliseu*  coliseu) {
+    
+    t_vector2* vector;
+
+    vector = matrix_new(4,1, coliseu);
+
+    vector->lines[X][0] = x;
+    vector->lines[Y][0] = y;
+    vector->lines[Z][0] = z;
+    vector->lines[W][0] = 1;
+
 
     return (vector);
 }

@@ -1,6 +1,5 @@
 #include "../includes/minit_rt.h"
 
-extern t_memory g_memory;
 
 static e_errors parse_and_init(t_context *ctx, int argc, char *argv[])
 {
@@ -13,16 +12,6 @@ static e_errors parse_and_init(t_context *ctx, int argc, char *argv[])
     ctx->projected_height = (int) (ctx->width / ctx->ratio);
     ctx->projected_height =  (ctx->projected_height < 0) ? 1 : ctx->projected_height;
     ctx->focal_center   = 1.0;
-    // memory
-    g_memory.memory[SHORT].door   = NULL;
-    g_memory.memory[SHORT].region = NULL;
-    g_memory.memory[SHORT].size   = ARENA_512B;
-
-    g_memory.memory[LONG].door   = NULL;
-    g_memory.memory[LONG].region = NULL;
-    g_memory.memory[LONG].size   = ARENA_8KB;
-
-    g_memory.coliseu          = LONG;
     return NO_ERROR;
 }
 

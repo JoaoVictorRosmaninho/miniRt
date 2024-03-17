@@ -1,10 +1,9 @@
-#include "../../includes/memory.h"
+#include "../../includes/minit_rt.h"
 
-t_memory g_memory;
-
-void memory_flush(unsigned char coliseu)
+void memory_flush(t_coliseu* coliseu)
 {
-    ft_arena_free(&g_memory.memory[coliseu]);
+    (void)(coliseu);
+    return;
 }
 
 void* new(size_t count, size_t size_of_struct, t_coliseu* coliseu)
