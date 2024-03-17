@@ -19,19 +19,20 @@ int	key_hook(int keycode)
 int	main(int ac, char **av)
 {
 	t_vars	vars;
-
+	(void)(ac);
+	(void)(av);
 	if (ac != 2 || check_extention(av[1]) == 1)
 		return (1);
 	check_element(av[1]);
 	vars.pos = 0;
 	vars.len = 100;
-	vars.objects = ft_smart_calloc(vars.len + 1, sizeof(t_object));
+	vars.objects = ft_smart_calloc(vars.len + 1, sizeof(t_object), NULL);
 	vars.pos1 = 0;
 	vars.len1 = 100;
-	vars.lights = ft_smart_calloc(vars.len1 + 1, sizeof(t_light));
+	vars.lights = ft_smart_calloc(vars.len1 + 1, sizeof(t_light), NULL);
 	read_scenes(av[1], &vars);
 	vars.image = new_image();
-	vars.buffer_img = calloc(WIDTH * HEIGHT, sizeof(t_vector));
+	vars.buffer_img = ft_smart_calloc(WIDTH * HEIGHT, sizeof(t_vector), NULL);
 	vars.mlx = mlx_init();
 	vars.win = mlx_new_window(vars.mlx, WIDTH, HEIGHT, "Raytracer");
 	vars.frames = 0;
@@ -40,5 +41,6 @@ int	main(int ac, char **av)
 	mlx_hook(vars.win, 17, 1L << 0, (void *)exit, &vars);
 	mlx_loop(vars.mlx);
 	ft_coliseu_manager(GIVE_BACK);
+
 	return (0);
 }

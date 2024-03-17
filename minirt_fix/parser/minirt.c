@@ -6,7 +6,7 @@
 /*   By: jv <jv@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 18:53:56 by leoferre          #+#    #+#             */
-/*   Updated: 2024/03/17 10:49:57 by jv               ###   ########.fr       */
+/*   Updated: 2024/03/17 15:57:15 by jv               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	add_object(t_vars *var, t_object obj)
 	var->pos++;
 	if (var->pos + 1 == var->len)
 	{
-		tmp = ft_smart_calloc(var->len * 2 + 1, sizeof(t_object));
+		tmp = ft_smart_calloc(var->len * 2 + 1, sizeof(t_object), NULL);
 		ft_memcpy(tmp, var->objects, var->len * sizeof(t_object));
 		free(var->objects);
 		var->objects = tmp;

@@ -4,6 +4,7 @@
 # include <stdint.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <string.h>
 
 # include "../libft/libft.h"
 
@@ -59,5 +60,7 @@ void    ft_coliseu_rollback(t_arena *region, size_t rollback);
 // arena manager for better interface
 t_coliseu   *ft_coliseu_manager(e_action action);
 //  smart allocator, no leaks
-void*   ft_smart_calloc(size_t count, size_t size);
+void*   ft_smart_calloc(size_t count, size_t size, t_coliseu* coliseu);
+
+void ft_coliseu_initialize(t_coliseu* group, size_t size_of_coliseu, size_t length);
 #endif

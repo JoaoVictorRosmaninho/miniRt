@@ -33,7 +33,7 @@ float	cofactor(t_matrix *mt, int row, int column)
 	return (sign * minor(mt, row, column));
 }
 
-t_matrix	*inverse(t_matrix *mt)
+t_matrix	*inverse(t_matrix *mt, t_coliseu* coliseu)
 {
 	t_matrix	*m_inverse;
 	int			row_index;
@@ -44,7 +44,7 @@ t_matrix	*inverse(t_matrix *mt)
 	dt = determinant(mt);
 	if (dt == 0)
 		return (NULL);
-	m_inverse = create_matrix(mt->rows, mt->cols);
+	m_inverse = create_matrix(mt->rows, mt->cols, coliseu);
 	row_index = 0;
 	while (row_index < mt->rows)
 	{

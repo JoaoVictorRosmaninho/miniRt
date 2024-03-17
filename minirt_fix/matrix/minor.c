@@ -18,7 +18,7 @@ void	copy_clmn(float *clm1, float *clm2, int column, int size)
 	}
 }
 
-t_matrix	*submatrix(t_matrix *mt, int row, int column)
+t_matrix	*submatrix(t_matrix *mt, int row, int column,  t_coliseu *coliseu)
 {
 	int			i;
 	int			fri;
@@ -26,7 +26,7 @@ t_matrix	*submatrix(t_matrix *mt, int row, int column)
 
 	if (mt->rows <= 1 || mt->cols <= 1)
 		return (mt);
-	new_matrix = create_matrix(mt->rows - 1, mt->rows - 1);
+	new_matrix = create_matrix(mt->rows - 1, mt->rows - 1,  coliseu);
 	i = 0;
 	fri = 0;
 	while (i < mt->rows)
@@ -47,9 +47,12 @@ float	minor(t_matrix *mt, int row, int column)
 {
 	t_matrix	*sub;
 	float		m_determinant;
+	t_coliseu	local;
 
-	sub = submatrix(mt, row, column);
+
+	ft_coliseu_initialize(&local, ARENA_4KB, 1);
+	sub = submatrix(mt, row, column, &local);
 	m_determinant = determinant(sub);
-	delete_matrix(sub);
+	ft_arena_destroy(&local);
 	return (m_determinant);
 }

@@ -93,10 +93,12 @@ void    ft_arena_free(t_coliseu *coliseu)
 {
     t_arena *arena;
 
+    if (!coliseu) {
+        printf("coliseu inválido\n");
+        return ;
+    }
     arena = coliseu->door;
     if (!arena) {
-        printf("endereço de arena inválido\n");
-        return ;
     }
     while (arena) {
         arena->begin = (char*) arena + ARENA_SIZE;
@@ -132,6 +134,21 @@ void ft_arena_destroy(t_coliseu *coliseu)
     coliseu->region = NULL;
 }
 
+
+void ft_coliseu_initialize(t_coliseu* group, size_t size_of_coliseu, size_t length) {
+
+    size_t index;
+
+    index = 0;
+
+    while (index < length) {
+        group[index].region = NULL;
+        group[index].door   = NULL;
+        group[index].size   = size_of_coliseu;
+        index++;
+    }
+}
+
 void* ft_arena_alloc(size_t chunk, t_coliseu *coliseu) {
     
     void* memory;
@@ -150,6 +167,7 @@ void* ft_arena_alloc(size_t chunk, t_coliseu *coliseu) {
             return (NULL);
         }
         ft_coliseu_create(coliseu);
+
         memory = ft_find_or_create_arena(coliseu, chunk);
     } else {
         memory = coliseu->region->begin;
@@ -158,10 +176,10 @@ void* ft_arena_alloc(size_t chunk, t_coliseu *coliseu) {
             return (NULL);
         }
         // Marcando como usada
-        if (coliseu->region->begin > coliseu->region->end) {
+        if (coliseu->region->begin + real_chunk > coliseu->region->end) {
             // Não tem meomoria suficiente
             // alocar uma nova
-            memory = ft_find_or_create_arena(coliseu, chunk);
+            memory = ft_find_or_create_arena(coliseu, real_chunk);
         }
     }
     coliseu->region->begin += real_chunk;
@@ -178,7 +196,7 @@ t_coliseu* ft_coliseu_manager(e_action action)
     index = 0;
     if (!coliseus[0].region) {
         while (index < NUMBER_OF_COLISEUS) {
-            coliseus[index].size = ARENA_16KB;
+            coliseus[index].size = ARENA_131KB;
             ft_coliseu_create(&coliseus[index]);
             index++;
         }

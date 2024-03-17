@@ -6,11 +6,11 @@ float	**new_channel(void)
 	int		i;
 	int		j;
 
-	channel = malloc(sizeof(float *) * HEIGHT);
+	channel = ft_smart_calloc(HEIGHT,  sizeof(float *), NULL);
 	i = 0;
 	while (i < HEIGHT)
 	{
-		channel[i] = malloc(sizeof(float) * WIDTH);
+		channel[i] = ft_smart_calloc(WIDTH, sizeof(float), NULL);
 		j = 0;
 		while (j < WIDTH)
 			channel[i][j++] = 0.0f;
@@ -23,7 +23,7 @@ t_image	*new_image(void)
 {
 	t_image	*image;
 
-	image = malloc(sizeof(t_image));
+	image = ft_smart_calloc(1, sizeof(t_image), NULL);
 	image->red = new_channel();
 	image->green = new_channel();
 	image->blue = new_channel();
@@ -59,7 +59,7 @@ t_data	*new_mlx_img(t_vars *vars)
 {
 	t_data	*mlx_img;
 
-	mlx_img = malloc(sizeof(t_data));
+	mlx_img = ft_smart_calloc(1, sizeof(t_data), NULL);
 	mlx_img->img = mlx_new_image(vars->mlx, WIDTH, HEIGHT);
 	mlx_img->addr = mlx_get_data_addr(mlx_img->img, &mlx_img->bits_per_pixel,
 			&mlx_img->line_length, &mlx_img->endian);

@@ -20,19 +20,19 @@ void	fill_mt(t_matrix *mt, float *values)
 	}
 }
 
-float	*create_cols(int c)
+float	*create_cols(int c,  t_coliseu* coliseu)
 {
 	int		i;
 	float	*new_col;
 
 	i = 0;
-	new_col = malloc(c * sizeof(float));
+	new_col = ft_smart_calloc(c, sizeof(float), NULL);
 	while (i < c)
 		new_col[i++] = .0;
 	return (new_col);
 }
 
-t_matrix	*create_matrix(int rows, int cols)
+t_matrix	*create_matrix(int rows, int cols, t_coliseu* coliseu)
 {
 	t_matrix	*new_mt;
 	int			i;
@@ -40,13 +40,13 @@ t_matrix	*create_matrix(int rows, int cols)
 
 	if (rows <= 0 || cols <= 0)
 		return (NULL);
-	new_mt = malloc(sizeof(t_matrix));
+	new_mt = ft_smart_calloc(1, sizeof(t_matrix), coliseu);
 	i = 0;
 	new_mt->rows = rows;
 	new_mt->cols = cols;
-	mt = malloc(sizeof(float *) * rows);
+	mt = ft_smart_calloc(rows, sizeof(float *), coliseu);
 	while (i < rows)
-		mt[i++] = create_cols(cols);
+		mt[i++] = create_cols(cols, coliseu);
 	new_mt->matrix = mt;
 	return (new_mt);
 }

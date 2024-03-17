@@ -6,21 +6,22 @@ t_vector	apply_transform_vector(t_vector *input,
 	t_vector	output;
 	t_matrix	*tempdata;
 	t_matrix	*result;
+	t_coliseu	local;
 	float		*values;
 
-	tempdata = create_matrix(4, 1);
+	ft_coliseu_initialize(&local, ARENA_32KB, 1);
+	tempdata = create_matrix(4, 1, &local);
 	values = (float []){input->x, input->y, input->z, 1.0f};
 	fill_mt(tempdata, values);
 	if (dirflag)
-		result = mt_multiplication(gtfm[0], tempdata);
+		result = mt_multiplication(gtfm[0], tempdata, &local);
 	else
-		result = mt_multiplication(gtfm[1], tempdata);
+		result = mt_multiplication(gtfm[1], tempdata, &local);
 	if (!result)
 		return ((t_vector){0, 0, 0});
 	output = new_vec(result->matrix[0][0],
 			result->matrix[1][0], result->matrix[2][0]);
-	delete_matrix(result);
-	delete_matrix(tempdata);
+	ft_arena_destroy(&local);
 	return (output);
 }
 
@@ -39,14 +40,20 @@ t_matrix	**set_transform(t_vector t, t_vector r, t_vector s)
 	t_matrix	**transform;
 	t_matrix	*forward;
 	t_matrix	*backward;
+	t_coliseu	local[2];
 
-	transform = malloc(sizeof(t_matrix *) * 2);
-	forward = safe_matrix_multy(translation_matrix(&t), rotation_matrix_x(r.x));
-	forward = safe_matrix_multy(forward, rotation_matrix_y(r.y));
-	forward = safe_matrix_multy(forward, rotation_matrix_z(r.z));
-	forward = safe_matrix_multy(forward, scaling_matrix(&s));
-	backward = inverse(forward);
+
+	ft_coliseu_initialize(local, ARENA_4KB, 2);
+
+	transform = ft_smart_calloc(2,  sizeof(t_matrix *), NULL);
+	forward  = safe_matrix_multy(translation_matrix(&t, &local[0]), rotation_matrix_x(r.x, &local[0]), local);
+	forward  = safe_matrix_multy(forward, rotation_matrix_y(r.y, &local[0]), local);
+	forward  = safe_matrix_multy(forward, rotation_matrix_z(r.z, &local[0]), local);
+	forward  = safe_matrix_multy(forward, scaling_matrix(&s, &local[0]), NULL);
+	backward = inverse(forward, NULL);
 	transform[0] = forward;
 	transform[1] = backward;
+	ft_arena_destroy(local);
+	ft_arena_destroy(local +  1);
 	return (transform);
 }

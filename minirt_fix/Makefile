@@ -1,7 +1,7 @@
 NAME = minirt
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror 
+#CFLAGS = -Wall -Wextra -Werror 
 CFLAGS += -Ofast
 CFLAGS += -fsanitize=address -fsanitize=leak -g3 
 LDFLAGS = -lmlx -lm -lXext -lX11 -lz

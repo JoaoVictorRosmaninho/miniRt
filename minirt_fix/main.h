@@ -222,7 +222,7 @@ float			random_float(unsigned int *rng_state, float min, float max);
 void			initialize_raytrace(t_vars *vars, t_norm1 *norm);
 void			process_pixel(t_vars *vars, t_norm1 *norm);
 void			raytrace(t_vars *vars);
-t_matrix		*create_matrix(int rows, int cols);
+t_matrix		*create_matrix(int rows, int cols, t_coliseu* coliseu);
 int				loop(t_vars *vars);
 int				test_intersection(t_ray *ray, t_object *objects, t_info *info);
 //Vector
@@ -241,19 +241,18 @@ t_vector		reflect(t_vector d, t_vector normal);
 t_vector		get_rotation_vector(t_vector normal);
 //Matrix
 void			fill_mt(t_matrix *mt, float *values);
-float			*create_cols(int c);
-t_matrix		*create_matrix(int rows, int cols);
+float			*create_cols(int c, t_coliseu* coliseu);
 float			determinant(t_matrix *mt);
 float			cofactor(t_matrix *mt, int row, int column);
-t_matrix		*inverse(t_matrix *mt);
+t_matrix		*inverse(t_matrix *mt, t_coliseu *coliseu);
 void			set_to_indentity(t_matrix *mt);
 void			print_matrix(t_matrix *matrix);
-void			delete_matrix(t_matrix *_this);
+void			delete_matrix(t_matrix *_this, t_coliseu* coliseu);
 void			copy_clmn(float *clm1, float *clm2, int column, int size);
-t_matrix		*submatrix(t_matrix *mt, int row, int column);
+t_matrix		*submatrix(t_matrix *mt, int row, int column, t_coliseu *coliseu);
 float			minor(t_matrix *mt, int row, int column);
-t_matrix		*mt_multiplication(t_matrix *mt1, t_matrix *mt2);
-t_matrix		*safe_matrix_multy(t_matrix *mt1, t_matrix *mt2);
+t_matrix		*mt_multiplication(t_matrix *mt1, t_matrix *mt2, t_coliseu *coliseu);
+t_matrix		*safe_matrix_multy(t_matrix *mt1, t_matrix *mt2, t_coliseu *coliseu);
 
 t_matrix		**set_transform(t_vector t, t_vector r, t_vector s);
 t_ray			apply_transform(t_ray *ray, t_matrix **gtfm, int dirflag);
@@ -261,11 +260,11 @@ t_vector		apply_transform_vector(t_vector *input, t_matrix **gtfm,
 					int dirflag);
 
 // Transformation
-t_matrix		*rotation_matrix_y(float angle);
-t_matrix		*rotation_matrix_z(float angle);
-t_matrix		*translation_matrix(t_vector *v);
-t_matrix		*scaling_matrix(t_vector *v);
-t_matrix		*rotation_matrix_x(float angle);
+t_matrix		*rotation_matrix_y(float angle, t_coliseu *coliseu);
+t_matrix		*rotation_matrix_z(float angle, t_coliseu *coliseu);
+t_matrix		*translation_matrix(t_vector *v, t_coliseu *coliseu);
+t_matrix		*scaling_matrix(t_vector *v, t_coliseu *coliseu);
+t_matrix		*rotation_matrix_x(float angle, t_coliseu *coliseu);
 
 // camera setup
 void			intialize_camera(t_camera *camera);
