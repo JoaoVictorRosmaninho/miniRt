@@ -1,4 +1,4 @@
-#include "main.h"
+#include "parser/minirt.h"
 
 int	loop(t_vars *vars)
 {

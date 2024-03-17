@@ -3,7 +3,7 @@ NAME = minirt
 CC = cc
 CFLAGS = -Wall -Wextra -Werror 
 CFLAGS += -Ofast
-# CFLAGS += -fsanitize=address -fsanitize=leak -g3 
+CFLAGS += -fsanitize=address -fsanitize=leak -g3 
 LDFLAGS = -lmlx -lm -lXext -lX11 -lz
 
 SRCS = 	parser/minirt.c								\
@@ -36,6 +36,8 @@ SRCS = 	parser/minirt.c								\
 		material/specular.c 						\
 		objects/cylinder.c 							\
  		objects/cy_utils.c 							\
+ 		memory/arena.c 								\
+ 		memory/ft_smart_calloc.c 					\
 		main.c										\
 
 OBJS = $(SRCS:.c=.o)

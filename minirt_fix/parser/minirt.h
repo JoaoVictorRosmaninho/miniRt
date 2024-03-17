@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: leoferre <leoferre@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jv <jv@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 18:54:09 by leoferre          #+#    #+#             */
-/*   Updated: 2024/03/15 21:05:04 by leoferre         ###   ########.fr       */
+/*   Updated: 2024/03/17 10:54:36 by jv               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <stdlib.h>
+# include "../main.h"
 # include "../libft/libft.h"
 # include "./get_next_line/get_next_line.h"
-# include "../main.h"
 # include <ctype.h>
 
 typedef struct s_elem

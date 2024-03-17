@@ -5,6 +5,8 @@
 # include <stdlib.h>
 # include <stdio.h>
 
+# include "../libft/libft.h"
+
 # define ARENA_MIN_ALLOC_SIZE 8
 # define ARENA_MALLOC_PTR_SIZE sizeof(void*)
 # define ARENA_ALIGN_SIZE 8

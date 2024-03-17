@@ -6,7 +6,7 @@
 /*   By: jv <jv@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 18:53:56 by leoferre          #+#    #+#             */
-/*   Updated: 2024/03/17 03:05:53 by jv               ###   ########.fr       */
+/*   Updated: 2024/03/17 10:49:57 by jv               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,7 @@ void	read_scenes(char *filename, t_vars *var)
 void	check_element(char *str)
 {
 	t_elem	elem;
-	int		i;
 
-	i = 0;
 	init_vars(&elem, str);
 	while (1)
 	{
