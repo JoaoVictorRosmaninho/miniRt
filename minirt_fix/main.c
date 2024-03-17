@@ -1,6 +1,4 @@
 #include "main.h"
-#include "libft/libft.h"
-#include "parser/minirt.h"
 
 int	loop(t_vars *vars)
 {
@@ -27,10 +25,10 @@ int	main(int ac, char **av)
 	check_element(av[1]);
 	vars.pos = 0;
 	vars.len = 100;
-	vars.objects = ft_calloc(vars.len + 1, sizeof(t_object));
+	vars.objects = ft_smart_calloc(vars.len + 1, sizeof(t_object));
 	vars.pos1 = 0;
 	vars.len1 = 100;
-	vars.lights = ft_calloc(vars.len1 + 1, sizeof(t_light));
+	vars.lights = ft_smart_calloc(vars.len1 + 1, sizeof(t_light));
 	read_scenes(av[1], &vars);
 	vars.image = new_image();
 	vars.buffer_img = calloc(WIDTH * HEIGHT, sizeof(t_vector));
@@ -41,6 +39,6 @@ int	main(int ac, char **av)
 	mlx_hook(vars.win, 2, 1L << 0, key_hook, &vars);
 	mlx_hook(vars.win, 17, 1L << 0, (void *)exit, &vars);
 	mlx_loop(vars.mlx);
-	free(vars.objects);
+	ft_coliseu_manager(GIVE_BACK);
 	return (0);
 }

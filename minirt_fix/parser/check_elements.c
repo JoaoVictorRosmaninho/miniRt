@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_elements.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: leoferre <leoferre@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jv <jv@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 18:53:40 by leoferre          #+#    #+#             */
-/*   Updated: 2024/03/15 20:18:24 by leoferre         ###   ########.fr       */
+/*   Updated: 2024/03/17 03:05:43 by jv               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	check_ambient_lightning(t_vars *var, char *line, int i)
 	t_ambiant	*ambient;
 
 	i++;
-	ambient = ft_calloc(1, sizeof(t_ambiant));
+	ambient = ft_smart_calloc(1, sizeof(t_ambiant));
 	ambient->ratio = parse_number(line, &i);
 	check_numbers(ambient->ratio, 0.0, 1.0);
 	ambient->color = parse_vector(line, &i);
@@ -114,7 +114,7 @@ void	check_light(t_vars *var, char *line, int i)
 	var->lights[var->pos1++] = light;
 	if (var->pos1 + 1 == var->len1)
 	{
-		tmp = ft_calloc(var->len1 * 2 + 1, sizeof(t_light));
+		tmp = ft_smart_calloc(var->len1 * 2 + 1, sizeof(t_light));
 		ft_memcpy(tmp, var->lights, var->len1 * sizeof(t_light));
 		free(var->lights);
 		var->lights = tmp;

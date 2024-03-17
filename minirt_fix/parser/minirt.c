@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: leoferre <leoferre@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jv <jv@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 18:53:56 by leoferre          #+#    #+#             */
-/*   Updated: 2024/03/15 20:21:26 by leoferre         ###   ########.fr       */
+/*   Updated: 2024/03/17 03:05:53 by jv               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	add_object(t_vars *var, t_object obj)
 	var->pos++;
 	if (var->pos + 1 == var->len)
 	{
-		tmp = ft_calloc(var->len * 2 + 1, sizeof(t_object));
+		tmp = ft_smart_calloc(var->len * 2 + 1, sizeof(t_object));
 		ft_memcpy(tmp, var->objects, var->len * sizeof(t_object));
 		free(var->objects);
 		var->objects = tmp;

@@ -5,6 +5,7 @@
 # include <stdlib.h>
 # include <math.h>
 # include <limits.h>
+# include "memory/arena.h"
 # include "libft/libft.h"
 # define MAXFLOAT 3.40282346638528859811704183484516925e+38F
 # define M_PI 3.14159265358979323846
