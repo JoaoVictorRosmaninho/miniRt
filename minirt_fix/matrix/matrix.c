@@ -46,7 +46,7 @@ void	print_matrix(t_matrix *matrix)
 	printf("]\n");
 }
 
-void	delete_matrix(t_matrix *_this, t_coliseu *coliseu)
+void	delete_matrix(t_matrix *_this)
 {
 	int	row_index;
 

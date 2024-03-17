@@ -247,7 +247,7 @@ float			cofactor(t_matrix *mt, int row, int column);
 t_matrix		*inverse(t_matrix *mt, t_coliseu *coliseu);
 void			set_to_indentity(t_matrix *mt);
 void			print_matrix(t_matrix *matrix);
-void			delete_matrix(t_matrix *_this, t_coliseu* coliseu);
+void			delete_matrix(t_matrix *_this);
 void			copy_clmn(float *clm1, float *clm2, int column, int size);
 t_matrix		*submatrix(t_matrix *mt, int row, int column, t_coliseu *coliseu);
 float			minor(t_matrix *mt, int row, int column);
