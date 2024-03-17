@@ -1,7 +1,7 @@
 NAME = minirt
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror 
+#CFLAGS = -Wall -Wextra -Werror 
 CFLAGS += -Ofast
 CFLAGS += -fsanitize=address -fsanitize=leak -g3 
 LDFLAGS = -lmlx -lm -lXext -lX11 -lz
@@ -37,6 +37,8 @@ SRCS = 	parser/minirt.c								\
 		objects/cylinder.c 							\
  		objects/cy_utils.c 							\
  		memory/arena.c 								\
+ 		memory/arena_utils.c 						\
+ 		memory/arena_align_utils.c 					\
  		memory/ft_smart_calloc.c 					\
 		main.c										\
 

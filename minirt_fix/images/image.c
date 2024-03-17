@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   image.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jv <jv@student.42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 20:04:38 by jv                #+#    #+#             */
+/*   Updated: 2024/03/17 20:05:08 by jv               ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../main.h"
 
 float	**new_channel(void)
@@ -6,7 +18,7 @@ float	**new_channel(void)
 	int		i;
 	int		j;
 
-	channel = ft_smart_calloc(HEIGHT,  sizeof(float *), NULL);
+	channel = ft_smart_calloc(HEIGHT, sizeof(float *), NULL);
 	i = 0;
 	while (i < HEIGHT)
 	{

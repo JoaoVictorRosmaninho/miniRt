@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   multiplication.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jv <jv@student.42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 20:09:50 by jv                #+#    #+#             */
+/*   Updated: 2024/03/17 20:10:21 by jv               ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../main.h"
 
-t_matrix	*mt_multiplication(t_matrix *mt1, t_matrix *mt2, t_coliseu* coliseu)
+t_matrix	*mt_multiplication(t_matrix *mt1, t_matrix *mt2, t_coliseu *coliseu)
 {
 	t_matrix	*result;
 	int			i;
@@ -29,13 +41,13 @@ t_matrix	*mt_multiplication(t_matrix *mt1, t_matrix *mt2, t_coliseu* coliseu)
 	return (result);
 }
 
-t_matrix	*safe_matrix_multy(t_matrix *mt1, t_matrix *mt2,  t_coliseu *coliseu)
+t_matrix	*safe_matrix_multy(t_matrix *mt1, t_matrix *mt2, t_coliseu *coliseu)
 {
 	t_matrix	*result;
 
 	if (!mt1 || !mt2)
 		return (NULL);
-	if (coliseu) 
+	if (coliseu)
 		result = mt_multiplication(mt1, mt2, coliseu + 1);
 	else
 		result = mt_multiplication(mt1, mt2, NULL);

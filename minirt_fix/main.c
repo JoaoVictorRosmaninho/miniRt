@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jv <jv@student.42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 17:44:07 by jv                #+#    #+#             */
+/*   Updated: 2024/03/17 20:01:52 by jv               ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser/minirt.h"
 
 int	loop(t_vars *vars)
@@ -19,8 +31,7 @@ int	key_hook(int keycode)
 int	main(int ac, char **av)
 {
 	t_vars	vars;
-	(void)(ac);
-	(void)(av);
+
 	if (ac != 2 || check_extention(av[1]) == 1)
 		return (1);
 	check_element(av[1]);
@@ -41,6 +52,5 @@ int	main(int ac, char **av)
 	mlx_hook(vars.win, 17, 1L << 0, (void *)exit, &vars);
 	mlx_loop(vars.mlx);
 	ft_coliseu_manager(GIVE_BACK);
-
 	return (0);
 }

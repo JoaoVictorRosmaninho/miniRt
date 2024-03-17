@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_mtx.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jv <jv@student.42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 17:50:57 by jv                #+#    #+#             */
+/*   Updated: 2024/03/17 17:51:35 by jv               ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../main.h"
 
 t_matrix	*translation_matrix(t_vector *v, t_coliseu *coliseu)
@@ -24,7 +36,7 @@ t_matrix	*scaling_matrix(t_vector *v, t_coliseu *coliseu)
 	return (scaling);
 }
 
-t_matrix	*rotation_matrix_x(float angle, t_coliseu*  coliseu)
+t_matrix	*rotation_matrix_x(float angle, t_coliseu *coliseu)
 {
 	t_matrix	*rotation;
 

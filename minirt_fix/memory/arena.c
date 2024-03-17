@@ -1,223 +1,128 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   arena.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jv <jv@student.42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 18:20:04 by jv                #+#    #+#             */
+/*   Updated: 2024/03/17 20:03:37 by jv               ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./arena.h"
 
-static size_t ft_align(size_t request_size) {
-    return (((request_size) + ((ARENA_ALIGN_SIZE) - 1)) & ~((ARENA_ALIGN_SIZE) - 1));
-}
-
-static size_t ft_arena_normalizer(size_t chunk) {
-    chunk--;
-    chunk |= chunk >> 1;
-    chunk |= chunk >> 2;
-    chunk |= chunk >> 4;
-    chunk |= chunk >> 8;
-    chunk |= chunk >> 16;
-    return(++chunk);
-}
-
-static t_arena* ft_arena_init(size_t chunk) // 1024 bytes min (4096)
+void	*ft_arena_alloc(size_t chunk, t_coliseu *coliseu)
 {
-    t_arena* arena;
+	void	*memory;
+	long	real_chunk;
 
-    if (chunk & (chunk -1))
-        chunk = ft_arena_normalizer(chunk);
-
-    if (chunk < ARENA_MALLOC_PTR_SIZE || (chunk - ARENA_MALLOC_PTR_SIZE) < ARENA_ALIGN_SIZE) {
-        printf("tamanho %ld menor que o minimo aceitável\n", chunk);
-        return (NULL);
-    }
-    chunk -= ARENA_MALLOC_PTR_SIZE;
-    
-    if (chunk <= ARENA_SIZE ) {
-        // Se o tamanho restante for inferior ao tamanho da arena: error
-        printf("Tamanho restante %ld é inferior ao tamanho minimo da arena\n", chunk);
-        return (NULL);
-    }
-
-    arena = (t_arena*) malloc(chunk); // Alocando o chunk
-    if (!arena) {
-        printf("Tamanho, insuficiente para Arena\n");
-        return (NULL);
-    }
-    arena->chunk  = chunk;
-    arena->begin = (char*) arena + ARENA_SIZE; 
-    arena->end   = (char*) arena + chunk;
-    arena->next  = NULL;
-    return (arena);
+	if (!coliseu || !chunk)
+		return (NULL);
+	real_chunk = ft_align(chunk);
+	if (!coliseu->region)
+	{
+		if (!coliseu->size)
+			return (NULL);
+		ft_coliseu_create(coliseu);
+		memory = ft_find_or_create_arena(coliseu, chunk);
+	}
+	else
+	{
+		memory = coliseu->region->begin;
+		if ((real_chunk + sizeof(t_arena)) > PTRDIFF_MAX)
+			return (NULL);
+		if (coliseu->region->begin + real_chunk > coliseu->region->end)
+			memory = ft_find_or_create_arena(coliseu, real_chunk);
+	}
+	coliseu->region->begin += real_chunk;
+	return (memory);
 }
 
-
-void ft_coliseu_create(t_coliseu* coliseu) {
-    coliseu->door = ft_arena_init(coliseu->size);
-    if (!coliseu->door) {
-        printf("Não foi possivel alocar o espaço %ld para a arena\n", coliseu->size);
-        return;
-    }
-    coliseu->region = coliseu->door;
-}
-
-
-static void* ft_find_or_create_arena(t_coliseu *coliseu, size_t chunk) {
-    
-    t_arena* _arena;
-    ptrdiff_t avaliable;
-    ptrdiff_t real_size;
-
-    _arena = coliseu->region;
-    while(1) {
-        avaliable = _arena->end - _arena->begin;
-        if ((ptrdiff_t) chunk > avaliable) {
-            if (_arena->next) {
-                // O ideal é sempre procurar espaço na arena disponivel, mas como é uma linked list, é demorado
-                _arena = _arena->next; // possivel "leak"
-                continue;
-            } else {
-                if (chunk > (PTRDIFF_MAX - ARENA_SIZE)) {
-                    printf("Erro: requisição de memoria muito grande\n");
-                    return (NULL);
-                }
-                if (coliseu->region && coliseu->size)
-                    real_size = coliseu->region->chunk;
-                else
-                    real_size = coliseu->size;
-                while ((ptrdiff_t)(chunk + ARENA_SIZE) >= real_size)
-                    real_size *= 2;
-                coliseu->region = coliseu->region->next = ft_arena_init(real_size);
-            }
-        }
-        break;
-    }
-    return (coliseu->region->begin);
-}
-
-void    ft_arena_free(t_coliseu *coliseu)
+t_arena	*ft_arena_init(size_t chunk)
 {
-    t_arena *arena;
+	t_arena	*arena;
 
-    if (!coliseu) {
-        printf("coliseu inválido\n");
-        return ;
-    }
-    arena = coliseu->door;
-    if (!arena) {
-    }
-    while (arena) {
-        arena->begin = (char*) arena + ARENA_SIZE;
-        arena = arena->next;
-    }
-    coliseu->region = coliseu->door;
+	if (chunk & (chunk -1))
+		chunk = ft_arena_normalizer(chunk);
+	if (chunk < sizeof(void *) || (chunk - sizeof(void *)) < ARENA_ALIGN_SIZE)
+	{
+		printf("tamanho %ld menor que o minimo aceitável\n", chunk);
+		return (NULL);
+	}
+	chunk -= sizeof(void *);
+	if (chunk <= sizeof(t_arena))
+		return (NULL);
+	arena = (t_arena *) malloc(chunk);
+	if (!arena)
+	{
+		printf("Tamanho, insuficiente para Arena\n");
+		return (NULL);
+	}
+	arena->chunk = chunk;
+	arena->begin = (char *) arena + sizeof(t_arena);
+	arena->end = (char *) arena + chunk;
+	arena->next = NULL;
+	return (arena);
 }
 
-void    ft_coliseu_rollback(t_arena *region, size_t rollback) {
-    if (!region) {
-        printf("endereço de arena inválido\n");
-        return ;
-    }
-    if ((region->begin - rollback) < (region->end + ARENA_MALLOC_PTR_SIZE - region->chunk)) {
-        printf("endereço de retorno inválido\n");
-        return ;
-    }
-    region->begin -= rollback;
-}   
-
-void ft_arena_destroy(t_coliseu *coliseu)
+void	ft_coliseu_create(t_coliseu *coliseu)
 {
-    t_arena* arena;
-    t_arena* _arena;
-
-    arena = coliseu->door;
-    while (arena) {
-     _arena = arena;
-      arena = arena->next;
-     free(_arena);
-    } 
-    coliseu->door   = NULL;
-    coliseu->region = NULL;
+	coliseu->door = ft_arena_init(coliseu->size);
+	if (!coliseu->door)
+		return ;
+	coliseu->region = coliseu->door;
 }
 
-
-void ft_coliseu_initialize(t_coliseu* group, size_t size_of_coliseu, size_t length) {
-
-    size_t index;
-
-    index = 0;
-
-    while (index < length) {
-        group[index].region = NULL;
-        group[index].door   = NULL;
-        group[index].size   = size_of_coliseu;
-        index++;
-    }
-}
-
-void* ft_arena_alloc(size_t chunk, t_coliseu *coliseu) {
-    
-    void* memory;
-    ptrdiff_t real_chunk;
-
-    if (!coliseu || !chunk)
-    {
-        printf("Coliseu inválido ou tamanho invalido\n");
-        return (NULL);
-    }
-    real_chunk = ft_align(chunk);
-    if (!coliseu->region)
-    {
-        if (!coliseu->size)  {
-            printf("Coliseu inválido\n");
-            return (NULL);
-        }
-        ft_coliseu_create(coliseu);
-
-        memory = ft_find_or_create_arena(coliseu, chunk);
-    } else {
-        memory = coliseu->region->begin;
-        if ((real_chunk + ARENA_SIZE) > PTRDIFF_MAX) {
-            printf("Impossivel  alocar, overflow condition\n");
-            return (NULL);
-        }
-        // Marcando como usada
-        if (coliseu->region->begin + real_chunk > coliseu->region->end) {
-            // Não tem meomoria suficiente
-            // alocar uma nova
-            memory = ft_find_or_create_arena(coliseu, real_chunk);
-        }
-    }
-    coliseu->region->begin += real_chunk;
-    return (memory);
-}
-
-
-t_coliseu* ft_coliseu_manager(e_action action)
+void	*ft_find_or_create_arena(t_coliseu *coliseu, size_t chunk)
 {
-    static t_coliseu coliseus[NUMBER_OF_COLISEUS] = { 0 };
-    t_coliseu*  ptr;
-    unsigned short int index;
+	t_ctx_arena	ctx;
 
-    index = 0;
-    if (!coliseus[0].region) {
-        while (index < NUMBER_OF_COLISEUS) {
-            coliseus[index].size = ARENA_131KB;
-            ft_coliseu_create(&coliseus[index]);
-            index++;
-        }
-    }
-    if (action == TAKE) {
-        index = 1;
-        ptr   = &coliseus[0];
-        while (index < NUMBER_OF_COLISEUS)
-        {
-            if ((coliseus[index].region->end - coliseus[index].region->begin) > (ptr->region->end - ptr->region->begin)) {
-                ptr = &coliseus[index];
-            }
-            index++;
-        }
-        return ptr;
-    } else {
-        index = 0;
-        while (index < NUMBER_OF_COLISEUS) {
-            ft_arena_destroy(&coliseus[index]);
-            index++;
-        }
-    }
-    return (NULL);
+	ctx.arena = coliseu->region;
+	ctx.arena_prev = NULL;
+	while (ctx.arena && (long) chunk > (ctx.arena->end - ctx.arena->begin))
+	{
+		ctx.arena_prev = ctx.arena;
+		ctx.arena = ctx.arena->next;
+	}
+	if (ctx.arena)
+		return (ctx.arena->begin);
+	if (coliseu->region && coliseu->size)
+		ctx.real_size = coliseu->region->chunk;
+	else
+		ctx.real_size = coliseu->size;
+	while ((long)(chunk + sizeof(t_arena)) >= ctx.real_size)
+		ctx.real_size *= 2;
+	ctx.arena = ft_arena_init(ctx.real_size);
+	ctx.arena_prev->next = ctx.arena;
+	coliseu->region = ctx.arena;
+	return (ctx.arena->begin);
+}
+
+t_coliseu	*ft_coliseu_manager(enum e_types action)
+{
+	static t_coliseu	coliseus[NUMBER_OF_COLISEUS] = {0};
+	unsigned short int	index;
+	t_coliseu			*ptr;
+
+	index = 0;
+	if (!coliseus[0].region)
+		ft_coliseu_initialize(coliseus, ARENA_32KB, NUMBER_OF_COLISEUS);
+	if (action == TAKE)
+	{
+		index = 1;
+		ptr = &coliseus[0];
+		while (index < NUMBER_OF_COLISEUS)
+		{
+			if ((coliseus[index].region->end - coliseus[index].region->begin)
+				> (ptr->region->end - ptr->region->begin))
+				ptr = &coliseus[index];
+			index++;
+		}
+		return (ptr);
+	}
+	index = 0;
+	while (index < NUMBER_OF_COLISEUS)
+		ft_arena_destroy(&coliseus[index++]);
+	return (NULL);
 }

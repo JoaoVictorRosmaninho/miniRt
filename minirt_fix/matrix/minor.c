@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minor.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jv <jv@student.42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 20:09:03 by jv                #+#    #+#             */
+/*   Updated: 2024/03/17 20:09:37 by jv               ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../main.h"
 
 void	copy_clmn(float *clm1, float *clm2, int column, int size)
@@ -18,7 +30,7 @@ void	copy_clmn(float *clm1, float *clm2, int column, int size)
 	}
 }
 
-t_matrix	*submatrix(t_matrix *mt, int row, int column,  t_coliseu *coliseu)
+t_matrix	*submatrix(t_matrix *mt, int row, int column, t_coliseu *coliseu)
 {
 	int			i;
 	int			fri;
@@ -26,7 +38,7 @@ t_matrix	*submatrix(t_matrix *mt, int row, int column,  t_coliseu *coliseu)
 
 	if (mt->rows <= 1 || mt->cols <= 1)
 		return (mt);
-	new_matrix = create_matrix(mt->rows - 1, mt->rows - 1,  coliseu);
+	new_matrix = create_matrix(mt->rows - 1, mt->rows - 1, coliseu);
 	i = 0;
 	fri = 0;
 	while (i < mt->rows)
@@ -48,7 +60,6 @@ float	minor(t_matrix *mt, int row, int column)
 	t_matrix	*sub;
 	float		m_determinant;
 	t_coliseu	local;
-
 
 	ft_coliseu_initialize(&local, ARENA_4KB, 1);
 	sub = submatrix(mt, row, column, &local);

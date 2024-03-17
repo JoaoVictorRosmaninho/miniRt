@@ -7,6 +7,7 @@
         "arena.h": "c",
         "limits.h": "c",
         "stdlib.h": "c",
-        "ctype.h": "c"
+        "ctype.h": "c",
+        "string.h": "c"
     }
 }

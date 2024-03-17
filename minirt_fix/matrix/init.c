@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jv <jv@student.42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 20:08:00 by jv                #+#    #+#             */
+/*   Updated: 2024/03/17 20:08:48 by jv               ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../main.h"
 
 void	fill_mt(t_matrix *mt, float *values)
@@ -20,7 +32,7 @@ void	fill_mt(t_matrix *mt, float *values)
 	}
 }
 
-float	*create_cols(int c,  t_coliseu* coliseu)
+float	*create_cols(int c, t_coliseu *coliseu)
 {
 	int		i;
 	float	*new_col;
@@ -32,7 +44,7 @@ float	*create_cols(int c,  t_coliseu* coliseu)
 	return (new_col);
 }
 
-t_matrix	*create_matrix(int rows, int cols, t_coliseu* coliseu)
+t_matrix	*create_matrix(int rows, int cols, t_coliseu *coliseu)
 {
 	t_matrix	*new_mt;
 	int			i;

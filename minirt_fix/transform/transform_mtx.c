@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   transform_mtx.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jv <jv@student.42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 17:45:30 by jv                #+#    #+#             */
+/*   Updated: 2024/03/17 17:47:19 by jv               ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../main.h"
 
 t_vector	apply_transform_vector(t_vector *input,
@@ -42,18 +54,19 @@ t_matrix	**set_transform(t_vector t, t_vector r, t_vector s)
 	t_matrix	*backward;
 	t_coliseu	local[2];
 
-
 	ft_coliseu_initialize(local, ARENA_4KB, 2);
-
-	transform = ft_smart_calloc(2,  sizeof(t_matrix *), NULL);
-	forward  = safe_matrix_multy(translation_matrix(&t, &local[0]), rotation_matrix_x(r.x, &local[0]), local);
-	forward  = safe_matrix_multy(forward, rotation_matrix_y(r.y, &local[0]), local);
-	forward  = safe_matrix_multy(forward, rotation_matrix_z(r.z, &local[0]), local);
-	forward  = safe_matrix_multy(forward, scaling_matrix(&s, &local[0]), NULL);
+	transform = ft_smart_calloc(2, sizeof(t_matrix *), NULL);
+	forward = safe_matrix_multy(translation_matrix(&t, &local[0]),
+			rotation_matrix_x(r.x, &local[0]), local);
+	forward = safe_matrix_multy(forward,
+			rotation_matrix_y(r.y, &local[0]), local);
+	forward = safe_matrix_multy(forward,
+			rotation_matrix_z(r.z, &local[0]), local);
+	forward = safe_matrix_multy(forward, scaling_matrix(&s, &local[0]), NULL);
 	backward = inverse(forward, NULL);
 	transform[0] = forward;
 	transform[1] = backward;
 	ft_arena_destroy(local);
-	ft_arena_destroy(local +  1);
+	ft_arena_destroy(local + 1);
 	return (transform);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   inverse.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jv <jv@student.42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 20:07:33 by jv                #+#    #+#             */
+/*   Updated: 2024/03/17 20:07:41 by jv               ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../main.h"
 
 float	determinant(t_matrix *mt)
@@ -33,7 +45,7 @@ float	cofactor(t_matrix *mt, int row, int column)
 	return (sign * minor(mt, row, column));
 }
 
-t_matrix	*inverse(t_matrix *mt, t_coliseu* coliseu)
+t_matrix	*inverse(t_matrix *mt, t_coliseu *coliseu)
 {
 	t_matrix	*m_inverse;
 	int			row_index;

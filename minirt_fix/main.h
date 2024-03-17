@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jv <jv@student.42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 17:41:21 by jv                #+#    #+#             */
+/*   Updated: 2024/03/17 17:43:06 by jv               ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MAIN_H
 # define MAIN_H
 # include <mlx.h>
@@ -86,14 +98,14 @@ typedef struct s_info
 // parse 
 typedef struct s_object
 {
-	int			type; // parse
-	t_vector	translation; // parse
+	int			type;
+	t_vector	translation;
 	t_vector	rotation;
-	t_vector	scale; // parse
-	t_vector	d_normal; // parse
-	t_vector	base_color; // parse
-	float		radius; // parse
-	float		height; // parse
+	t_vector	scale;
+	t_vector	d_normal;
+	t_vector	base_color;
+	float		radius;
+	float		height;
 	int			has_material;
 	float		reflectivity;
 	float		shininess;
@@ -222,7 +234,7 @@ float			random_float(unsigned int *rng_state, float min, float max);
 void			initialize_raytrace(t_vars *vars, t_norm1 *norm);
 void			process_pixel(t_vars *vars, t_norm1 *norm);
 void			raytrace(t_vars *vars);
-t_matrix		*create_matrix(int rows, int cols, t_coliseu* coliseu);
+t_matrix		*create_matrix(int rows, int cols, t_coliseu *coliseu);
 int				loop(t_vars *vars);
 int				test_intersection(t_ray *ray, t_object *objects, t_info *info);
 //Vector
@@ -241,7 +253,7 @@ t_vector		reflect(t_vector d, t_vector normal);
 t_vector		get_rotation_vector(t_vector normal);
 //Matrix
 void			fill_mt(t_matrix *mt, float *values);
-float			*create_cols(int c, t_coliseu* coliseu);
+float			*create_cols(int c, t_coliseu *coliseu);
 float			determinant(t_matrix *mt);
 float			cofactor(t_matrix *mt, int row, int column);
 t_matrix		*inverse(t_matrix *mt, t_coliseu *coliseu);
@@ -249,10 +261,13 @@ void			set_to_indentity(t_matrix *mt);
 void			print_matrix(t_matrix *matrix);
 void			delete_matrix(t_matrix *_this);
 void			copy_clmn(float *clm1, float *clm2, int column, int size);
-t_matrix		*submatrix(t_matrix *mt, int row, int column, t_coliseu *coliseu);
+t_matrix		*submatrix(t_matrix *mt, int row, int column,
+					t_coliseu *coliseu);
 float			minor(t_matrix *mt, int row, int column);
-t_matrix		*mt_multiplication(t_matrix *mt1, t_matrix *mt2, t_coliseu *coliseu);
-t_matrix		*safe_matrix_multy(t_matrix *mt1, t_matrix *mt2, t_coliseu *coliseu);
+t_matrix		*mt_multiplication(t_matrix *mt1, t_matrix *mt2,
+					t_coliseu *coliseu);
+t_matrix		*safe_matrix_multy(t_matrix *mt1, t_matrix *mt2,
+					t_coliseu *coliseu);
 
 t_matrix		**set_transform(t_vector t, t_vector r, t_vector s);
 t_ray			apply_transform(t_ray *ray, t_matrix **gtfm, int dirflag);
