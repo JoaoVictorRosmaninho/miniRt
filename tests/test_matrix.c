@@ -1,7 +1,5 @@
 #include "utils.h"
 
-extern t_memory g_memory;
-
 
 t_coliseu coliseu = {
     .door = NULL,
@@ -231,6 +229,7 @@ Test(matrix, matrix_mult_tuple, .init = setup, .fini = teardown)
 
     t_matrix* r = matrix_mult(m, m2, &coliseu);
 
+    cr_assert(r != NULL, "deve-se retorna uma matriz válida");
     cr_assert_float_eq(r->lines[0][0], 18.0, EPSILON);
     cr_assert_float_eq(r->lines[1][0], 24.0, EPSILON);
     cr_assert_float_eq(r->lines[2][0], 33.0, EPSILON);
