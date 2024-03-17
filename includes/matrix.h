@@ -8,7 +8,9 @@ typedef struct s_matrix {
     double **lines;
 } t_matrix;
 
-typedef t_matrix t_translation;
+
+
+t_matrix* matrix_mult_chain(int num_args, ...) ;
 
 uint8_t matrix_eq(t_matrix* a, t_matrix* b, unsigned int row, unsigned int col);
 
