@@ -26,7 +26,7 @@ float	*create_cols(int c,  t_coliseu* coliseu)
 	float	*new_col;
 
 	i = 0;
-	new_col = ft_smart_calloc(c, sizeof(float), NULL);
+	new_col = ft_smart_calloc(c, sizeof(float), coliseu);
 	while (i < c)
 		new_col[i++] = .0;
 	return (new_col);
