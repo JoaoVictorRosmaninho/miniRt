@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jv <jv@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: jde-paul <jde-paul@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/17 17:44:07 by jv                #+#    #+#             */
-/*   Updated: 2024/03/17 20:01:52 by jv               ###   ########.fr       */
+/*   Created: 2024/03/17 17:44:07 by jde-paul                #+#    #+#             */
+/*   Updated: 2024/03/18 17:54:26 by jde-paul               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ int	loop(t_vars *vars)
 int	key_hook(int keycode)
 {
 	if (keycode == 65307)
+	{
+		ft_coliseu_manager(GIVE_BACK);
 		exit(0);
+	}
 	return (keycode);
 }
 
