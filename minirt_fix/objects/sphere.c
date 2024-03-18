@@ -6,7 +6,7 @@
 /*   By: jv <jv@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:06:30 by jv                #+#    #+#             */
-/*   Updated: 2024/03/17 20:06:32 by jv               ###   ########.fr       */
+/*   Updated: 2024/03/17 21:58:00 by jv               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	test_sphere(t_ray *ray, t_info *info)
 {
 	t_norm	norm;
 
+	ft_bzero(&norm, sizeof(t_norm));
 	norm.back_ray = apply_transform(ray, info->e->gtfm, BACKWARD);
 	norm.ray_dir = normalized(norm.back_ray.direction);
 	norm.b = 2 * dot_product(norm.ray_dir, norm.back_ray.point1);

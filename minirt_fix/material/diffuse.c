@@ -6,7 +6,7 @@
 /*   By: jv <jv@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:13:58 by jv                #+#    #+#             */
-/*   Updated: 2024/03/17 20:14:08 by jv               ###   ########.fr       */
+/*   Updated: 2024/03/17 21:57:22 by jv               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static int	cast_ray(t_ray *ray, t_object *objects,
 {
 	t_norm3	norm;
 
+	ft_bzero(&norm, sizeof(t_norm3));
 	norm.i = -1;
 	norm.validint = 0;
 	while (objects[++norm.i].gtfm)
@@ -45,6 +46,7 @@ int	compute_illumination(t_light *light, t_object *objects,
 {
 	t_norm4	norm;
 
+	ft_bzero(&norm, sizeof(t_norm4));
 	norm.i = 0;
 	norm.lighdir = normalized(sub_vec(light->position, info->hitpoint));
 	norm.lighdist = length(sub_vec(light->position, info->hitpoint));
@@ -69,6 +71,7 @@ t_vector	diffuse(t_info *info, t_vars *vars)
 {
 	t_norm5	norm;
 
+	ft_bzero(&norm, sizeof(t_norm5));
 	norm.i = -1;
 	norm.red = 0;
 	norm.green = 0;

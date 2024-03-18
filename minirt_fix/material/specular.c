@@ -6,7 +6,7 @@
 /*   By: jv <jv@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:14:20 by jv                #+#    #+#             */
-/*   Updated: 2024/03/17 20:14:20 by jv               ###   ########.fr       */
+/*   Updated: 2024/03/17 21:57:45 by jv               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_vector	specular_highlight(t_info *info, t_vars *vars, t_ray *camera_ray)
 {
 	t_norm6	norm;
 
+	ft_bzero(&norm, sizeof(t_norm6));
 	norm.i = -1;
 	norm.red = 0;
 	norm.green = 0;

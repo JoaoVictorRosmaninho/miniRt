@@ -6,7 +6,7 @@
 /*   By: jv <jv@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:11:40 by jv                #+#    #+#             */
-/*   Updated: 2024/03/17 20:11:41 by jv               ###   ########.fr       */
+/*   Updated: 2024/03/17 21:58:23 by jv               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	raytrace(t_vars *vars)
 {
 	t_norm1	norm;
 
+	ft_bzero(&norm, sizeof(t_norm1));
 	initialize_raytrace(vars, &norm);
 	while (++norm.y < HEIGHT)
 	{
