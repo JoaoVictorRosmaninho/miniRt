@@ -6,7 +6,7 @@
 /*   By: jv <jv@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 20:11:10 by jv                #+#    #+#             */
-/*   Updated: 2024/03/17 20:11:11 by jv               ###   ########.fr       */
+/*   Updated: 2024/03/17 21:50:15 by jv               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	test_intersection(t_ray *ray, t_object *objects, t_info *info)
 {
 	t_norm2	norm;
 
+	ft_bzero(&norm, sizeof(t_norm2));
 	norm.intfound = 0;
 	norm.validint = 0;
 	norm.mindist = 10e6;
