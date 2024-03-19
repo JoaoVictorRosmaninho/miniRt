@@ -3,7 +3,7 @@ NAME = minirt
 CC = cc
 CFLAGS = -Wall -Wextra -Werror 
 CFLAGS += -Ofast
-CFLAGS += -fsanitize=address -fsanitize=leak -g3 
+#CFLAGS += -fsanitize=address -fsanitize=leak -g3 
 LDFLAGS = -lmlx -lm -lXext -lX11 -lz
 
 SRCS = 	parser/minirt.c								\
