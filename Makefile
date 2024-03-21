@@ -3,7 +3,7 @@ CC     	  := clang
 CFLAGS 	  := -Wall -Wextra -Werror -ggdb  -c 
 LFLAGS 	  := -L./dist -lft -lm
 GFLAGS 	  := -fsanitize=address
-NAME   	  := minirt
+NAME   	  := miniRT
 AR     	  := ar -crs
 
 RESET := \033[0m
