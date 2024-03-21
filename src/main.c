@@ -20,8 +20,8 @@ int main(int argc, char *argv[])
 {
     t_context context;
     
-    if (parse_and_init(&context, argc, argv) == NO_ERROR) {
-        
+    if (parse_and_init(&context, argc, argv) == NO_ERROR)
+    {
         memory_destroy(NULL);
         close(context.file);
     } else {

@@ -7,37 +7,67 @@ void  vector_write_color(t_color* v, int out)
     ft_fprintf(out, "%d %d %d ", (int)(v->x * 255), (int)(v->y * 255), (int)(v->z * 255));
 }
 
-uint8_t vector_equals(t_vector* a, t_vector*  b) {
-    return a->x == b->x && a->y == b->y && a->z == b->z;
-}
-void vector_to_str(t_vector *v) {
-    printf("X: %f, Y: %f, Z: %f\n", v->x, v->y, v->z);
-}
+unsigned char vector_equals(t_vector2* a, t_vector2* b)
+{
+    double* v1;
+    double* v2;
 
-t_vector* vsum(t_vector *a, t_vector *b) {
-    return (vector_new(a->x + b->x, a->y + b->y, a->z + b->z));
-}
+    v1  = *(a->lines);
+    v2  = *(b->lines);
 
-t_vector* vsub(t_vector *a, t_vector *b) {
-    return (vector_new(a->x - b->x, a->y - b->y, a->z - b->z));
+    return (v1[X] == v2[X] && v1[Y] == v2[Y] && v1[Z] == v2[Z]);
 }
 
-t_vector* vmult(t_vector *a, t_vector *b) {
-    return (vector_new( a->x * b->x, a->y * b->y, a->z * b->z));
+void vector_to_str(t_vector2 *v) {
+    double* v1 = *(v->lines);
+    printf("X: %f, Y: %f, Z: %f\n", v1[X], v1[Y], v1[Z]);
+}
+
+t_vector* vsum(t_vector2 *a, t_vector2 *b, t_coliseu* coliseu) {
+    double* v1;
+    double* v2;
+
+    v1  = *(a->lines);
+    v2  = *(b->lines);
+    return (vector_new2(v1[X] + v2[X], v1[Y] + v2[Y], v1[Z] + v2[Z], coliseu));
+}
+
+t_vector* vsub(t_vector2 *a, t_vector2 *b, t_coliseu* coliseu) {
+    double* v1;
+    double* v2;
+
+    v1  = *(a->lines);
+    v2  = *(b->lines);
+    return (vector_new2(v1[X] - v2[X], v1[Y] - v2[Y], v1[Z] - v2[Z], coliseu));
+}
+
+t_vector* vmult(t_vector2 *a, t_vector2 *b, t_coliseu* coliseu) {
+    double* v1;
+    double* v2;
+
+    v1  = *(a->lines);
+    v2  = *(b->lines);
+    return (vector_new2(v1[X] * v2[X], v1[Y] * v2[Y], v1[Z] * v2[Z], coliseu));
 }
 
 
-t_vector* vmultf(t_vector *a, float factor) {
-    return (vector_new(a->x * factor, a->y * factor, a->z * factor));
+t_vector* vmultf(t_vector2 *a, float factor) {
+    double* v1;
+
+    v1  = *(a->lines);
+    return (vector_new(v1[X] * factor, v1[Y] * factor, v1[Z] * factor));
 }
 
 
-t_vector* vdivf(t_vector *a, float factor) {
-    return (vmultf(a, 1 / factor));
+t_vector* vdivf(t_vector2 *a, float factor) {
+    return (vmultf(a, 1.0 / factor));
 }
 
-t_vector* vneg(t_vector *vector) {
-    return vector_new(0 - vector->x, 0 - vector->y, 0 - vector->z);
+t_vector* vneg(t_vector2 *a, t_coliseu* coliseu) {
+    double* v1;
+
+    v1  = *(a->lines);
+    return vector_new2(0 - v1[X], 0 - v1[Y], 0 - v1[Z], coliseu);
 }
 
 double vmagnitude(t_vector *vector) {
