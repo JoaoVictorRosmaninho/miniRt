@@ -68,11 +68,11 @@ Test(matrix, scale, .init = setup, .fini = teardown) {
 
 Test(matrix, scale_vector, .init = setup, .fini = teardown) {
 
-    t_vector2* p = point_new(-4,6,8, &coliseu);
+    t_vector* p = point_new(-4,6,8, &coliseu);
 
     t_matrix* t = scale_new(2, 3, 4, &coliseu);
 
-    t_vector2* result = matrix_mult(t, p, &coliseu);
+    t_vector* result = matrix_mult(t, p, &coliseu);
 
     cr_assert_float_eq(result->lines[0][0], -8, EPSILON);
     cr_assert_float_eq(result->lines[0][1], 18, EPSILON);
@@ -81,7 +81,7 @@ Test(matrix, scale_vector, .init = setup, .fini = teardown) {
 
 Test(matrix, scale_vector_inverse, .init = setup, .fini = teardown) {
 
-    t_vector2* p = point_new(-4,6,8, &coliseu);
+    t_vector* p = point_new(-4,6,8, &coliseu);
 
     p->lines[0][0] = -4;
     p->lines[0][1] =  6;
@@ -91,7 +91,7 @@ Test(matrix, scale_vector_inverse, .init = setup, .fini = teardown) {
 
     t = matrix_reverse(t, &coliseu);
 
-    t_vector2* result = matrix_mult(t, p, &coliseu);
+    t_vector* result = matrix_mult(t, p, &coliseu);
 
     cr_assert_float_eq(result->lines[0][0], -2, EPSILON);
     cr_assert_float_eq(result->lines[0][1], 2, EPSILON);
@@ -102,7 +102,7 @@ Test(matrix, reflection, .init = setup, .fini = teardown) {
 
     // reflection is scaling with negative values 
 
-    t_vector2* p = point_new(2,3,4, &coliseu);
+    t_vector* p = point_new(2,3,4, &coliseu);
 
     p->lines[0][0] =  2;
     p->lines[0][1] =  3;
@@ -110,7 +110,7 @@ Test(matrix, reflection, .init = setup, .fini = teardown) {
 
     t_matrix* t = scale_new(-1, 1, 1, &coliseu);
 
-    t_vector2* result = matrix_mult(t, p, &coliseu);
+    t_vector* result = matrix_mult(t, p, &coliseu);
 
     cr_assert_float_eq(result->lines[0][0], -2, EPSILON);
     cr_assert_float_eq(result->lines[0][1],  3, EPSILON);
@@ -134,12 +134,12 @@ Test(matrix, quarters, .init = setup, .fini = teardown) {
 
 Test(matrix, rotation_full_quarter, .init = setup, .fini = teardown) {
     
-    t_vector2* p = point_new(0,1,0, &coliseu);
+    t_vector* p = point_new(0,1,0, &coliseu);
     
     t_matrix* full_quater = rotation_x(M_PI / 2.0, &coliseu);
 
 
-    t_vector2* point_i = matrix_mult(full_quater, p, &coliseu);
+    t_vector* point_i = matrix_mult(full_quater, p, &coliseu);
 
    cr_assert_float_eq(point_i->lines[0][0], 0.0, EPSILON);
    cr_assert_float_eq(point_i->lines[1][0], 0.0, EPSILON);
@@ -148,11 +148,11 @@ Test(matrix, rotation_full_quarter, .init = setup, .fini = teardown) {
 }
 Test(matrix, rotation_half_quarter, .init = setup, .fini = teardown) {
     
-    t_vector2* p = point_new(0,1,0, &coliseu);
+    t_vector* p = point_new(0,1,0, &coliseu);
 
     t_matrix* half_quarter = rotation_x(M_PI / 4.0, &coliseu);
 
-    t_vector2* point_i = matrix_mult(half_quarter,p, &coliseu);
+    t_vector* point_i = matrix_mult(half_quarter,p, &coliseu);
     
     cr_assert_float_eq(point_i->lines[0][0], 0.0, EPSILON);
     cr_assert_float_eq(point_i->lines[1][0], sqrt(2)/2, EPSILON);
@@ -161,7 +161,7 @@ Test(matrix, rotation_half_quarter, .init = setup, .fini = teardown) {
 
 Test(matrix, rotation_half_quarter_inverse, .init = setup, .fini = teardown) {
     
-    t_vector2* p = point_new(0,1,0, &coliseu);
+    t_vector* p = point_new(0,1,0, &coliseu);
     p->lines[0][0] =  0;
     p->lines[0][1] =  1;
     p->lines[0][2] =  0;
@@ -170,7 +170,7 @@ Test(matrix, rotation_half_quarter_inverse, .init = setup, .fini = teardown) {
 
     half_quarter = matrix_reverse(half_quarter, &coliseu);
 
-    t_vector2* point_i = matrix_mult(half_quarter, p,  &coliseu);
+    t_vector* point_i = matrix_mult(half_quarter, p,  &coliseu);
     
     cr_assert_float_eq(point_i->lines[0][0], 0.0, EPSILON);
     cr_assert_float_eq(point_i->lines[1][0], sqrt(2)/2, EPSILON);
@@ -179,10 +179,10 @@ Test(matrix, rotation_half_quarter_inverse, .init = setup, .fini = teardown) {
 
 Test(matrix, rotation_half_quarter_inverse_y, .init = setup, .fini = teardown) {
     
-    t_vector2* p = point_new(0,0,1, &coliseu);
+    t_vector* p = point_new(0,0,1, &coliseu);
     t_matrix* half_quarter = rotation_y(M_PI / 4.0, &coliseu);
 
-    t_vector2* point_i = matrix_mult(half_quarter, p, &coliseu);
+    t_vector* point_i = matrix_mult(half_quarter, p, &coliseu);
     
 
     cr_assert_float_eq(point_i->lines[0][0], sqrt(2)/2, EPSILON);
@@ -192,12 +192,12 @@ Test(matrix, rotation_half_quarter_inverse_y, .init = setup, .fini = teardown) {
 
 Test(matrix, rotation_z, .init = setup, .fini = teardown) {
     
-    t_vector2* p = point_new(0,1,0,&coliseu);
+    t_vector* p = point_new(0,1,0,&coliseu);
 
     t_matrix* half_quarter = rotation_z(M_PI / 4.0, &coliseu);
 
 
-    t_vector2* point_half  = matrix_mult(half_quarter, p, &coliseu);
+    t_vector* point_half  = matrix_mult(half_quarter, p, &coliseu);
 
     cr_assert_float_eq(point_half->lines[0][0], -sqrt(2)/2, EPSILON);
     cr_assert_float_eq(point_half->lines[1][0], sqrt(2)/2, EPSILON);
@@ -206,7 +206,7 @@ Test(matrix, rotation_z, .init = setup, .fini = teardown) {
 
 
     t_matrix*  full_quarter = rotation_z(M_PI / 2.0, &coliseu);
-    t_vector2* point_full   = matrix_mult(full_quarter, p, &coliseu);
+    t_vector* point_full   = matrix_mult(full_quarter, p, &coliseu);
     
     cr_assert_float_eq(point_full->lines[0][0], -1, EPSILON);
     cr_assert_float_eq(point_full->lines[1][0], 0, EPSILON);
@@ -243,7 +243,7 @@ Test(matrix, shearing_test2, .init = setup, .fini = teardown) {
 }
 
 Test(matrix, multiple_operations_at_once, .init = setup, .fini = teardown) {
-    t_vector2* point = vector_new2(1,0,1, &coliseu);
+    t_vector* point = vector_new(1,0,1, &coliseu);
 
     t_matrix* rotation    = rotation_x(M_PI / 2, &coliseu);
 
@@ -262,13 +262,13 @@ Test(matrix, multiple_operations_at_once, .init = setup, .fini = teardown) {
 }
 
 Test(matrix, matrix_chain_multiplication, .init = setup, .fini = teardown) {
-    t_vector2* vector = vector_new2(1, 0, 1, &coliseu);
+    t_vector* vector = vector_new(1, 0, 1, &coliseu);
     
     t_matrix* rotation    = rotation_x(M_PI / 2, &coliseu);
     t_matrix* scaling     = scale_new(5,5,5, &coliseu);
     t_matrix* translation = translation_new(10,5,7, &coliseu);
 
-    t_vector2* result = matrix_mult_chain(5, &coliseu, translation, scaling, rotation, vector);
+    t_vector* result = matrix_mult_chain(5, &coliseu, translation, scaling, rotation, vector);
 
     cr_assert_float_eq(result->lines[X][0], 15.0, EPSILON);
     cr_assert_float_eq(result->lines[Y][0], 0.0, EPSILON);

@@ -39,8 +39,6 @@ typedef enum {
 #include "./rotations.h"
 #include "./point.h"
 
-typedef t_vector t_point;
-typedef t_vector t_color;
 typedef struct s_ray {     t_vector  *origin;     t_vector  *direction; } t_ray ;
 //ray 
 

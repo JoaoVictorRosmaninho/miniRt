@@ -2,7 +2,7 @@
 # define TRANSLATION_H
 
 typedef t_matrix t_point2;
-typedef t_matrix t_vector2;
+typedef t_matrix t_vector;
 
 t_matrix* translation_new(double x, double y, double z, t_coliseu*  coliseu);
 t_matrix* scale_new(double x, double y, double z, t_coliseu*  coliseu);
